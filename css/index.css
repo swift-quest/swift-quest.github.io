@@ -1,0 +1,70 @@
+body {
+  font-family: sans-serif;
+}
+
+a {
+  color: rgb(254, 75, 38);
+}
+
+a:hover {
+  color: rgb(254, 75, 38);
+  text-decoration: underline;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0 40px 0;
+  color: rgb(254, 75, 38);
+}
+
+section {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+section hr {
+  background-color: rgb(254, 75, 38);
+  width: 40px;
+  height: 8px;
+  border: 0;
+}
+
+#sq-logo>img {
+  width: 100%;
+  max-width: 556px;
+}
+
+#sq-headline {
+  padding: 20px 0;
+}
+
+#sq-screenshots .sq-screenshot > img {
+  width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid #eeeeee;
+}
+
+#sq-contact>.row {
+  padding-bottom: 40px;
+}
+
+#sq-contact .sq-photo img {
+  width: 128px;
+  height: 128px;
+  border-radius: 64px;
+  margin-bottom: 10px;
+}
+
+#sq-contact .sq-name {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: larger;
+}
+
+#sq-contact .sq-introduction {
+  margin-bottom: 20px;
+}
+
+#sq-contact .sq-icon {
+  margin-bottom: 6px;
+}
