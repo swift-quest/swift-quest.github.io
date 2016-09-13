@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>ウェルカムバトル</title>
+    <link rel="stylesheet" href="css/battle.css">
+  </head>
+  <body>
+    <div id="sq-container">
+      <div id="sq-status-box" class="sq-box">
+        <table>
+          <tbody>
+            <tr class="sq-name">
+              <th class="sq-value">ゆうしゃ</th>
+              <th class="sq-value">せんし</th>
+              <th class="sq-value">そうりょ</th>
+              <th class="sq-value">まほうつかい</th>
+            </tr>
+            <tr class="sq-hp">
+              <td><table><tbody><tr><th>HP</th><td class="sq-value">153</td></tr></tbody></table></td>
+              <td><table><tbody><tr><th>HP</th><td class="sq-value">198</td></tr></tbody></table></td>
+              <td><table><tbody><tr><th>HP</th><td class="sq-value">101</td></tr></tbody></table></td>
+              <td><table><tbody><tr><th>HP</th><td class="sq-value">77</td></tr></tbody></table></td>
+            </tr>
+            <tr class="sq-mp">
+              <td><table><tbody><tr><th>MP</th><td class="sq-value">25</td></tr></tbody></table></td>
+              <td><table><tbody><tr><th>MP</th><td class="sq-value">0</td></tr></tbody></table></td>
+              <td><table><tbody><tr><th>MP</th><td class="sq-value">35</td></tr></tbody></table></td>
+              <td><table><tbody><tr><th>MP</th><td class="sq-value">58</td></tr></tbody></table></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="sq-monsters">
+        <div class="sq-monster sq-dark-knight">
+          <img src="img/dark-knight.png" />
+        </div>
+        <div class="sq-monster sq-dark-lord">
+          <img src="img/dark-lord.png" />
+        </div>
+        <div class="sq-monster sq-demon-priest">
+          <img src="img/demon-priest.png" />
+        </div>
+      </div>
+      <div id="sq-bottom">
+        <div id="sq-message-box" class="sq-box">
+        </div>
+        <div id="sq-selections">
+        </div>
+      </div>
+    </div>
+    <div id="sq-fullscreen-effect"></div>
+    <audio id="sq-audio-battle" src="audio/battle.mp3" loop></audio>
+    <audio id="sq-audio-win" src="audio/win.mp3"></audio>
+    <script src="js/battle.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,45 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+  line-height: 1.8em;
+}
+
+#sq-container {
+  width: 100%;
+  height: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#sq-container section {
+  margin: 20px 0;
+}
+
+#sq-author {
+  text-align: center;
+}
+
+#sq-author .sq-portrait img {
+  width: 128px;
+  height: 128px;
+  border-radius: 64px;
+  margin-bottom: 10px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border-top: solid 1px #000000;
+  padding: 20px 10px;
+}
