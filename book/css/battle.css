@@ -329,6 +329,10 @@ body {
       height: 150px;
   }
 
+  #sq-monsters .sq-monster {
+    visibility: hidden;
+  }
+
   .sq-selection > .sq-title {
     padding: 0 6px;
   }
