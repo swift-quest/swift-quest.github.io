@@ -19,7 +19,8 @@ a {
 #sq-page {
   display: table;
   margin: 0 auto;
-  width: 700px;
+  width: 90%;
+  max-width: 700px;
   height: 100%;
 }
 
@@ -34,8 +35,8 @@ a {
 }
 
 #sq-image-row > div > img {
-  width: 480px;
-  height: 360px;
+  width: 70%;
+  max-width: 480px;
 }
 
 #sq-text-row {
@@ -44,7 +45,6 @@ a {
 
 #sq-text-row > div {
   display: table-cell;
-  height: 170px;
   text-align: left;
 }
 
@@ -63,7 +63,64 @@ a {
   color: rgb(254, 75, 38);
   border: solid 1px #ffffff;
   background-color: #ffffff;
-  border-radius: 40px;
-  font-size: 24px;
-  padding: 10px 20px;
+}
+
+@media (max-width: 540px) {
+  body {
+    font-size: 12px;
+  }
+
+  #sq-text-row > div {
+    height: 85px;
+  }
+
+  #sq-button-row > div {
+    height: 48px;
+  }
+
+  #sq-button {
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}
+
+@media (min-width: 540px) and (max-width: 720px) {
+  body {
+    font-size: 18px;
+  }
+
+  #sq-text-row > div {
+    height: 128px;
+  }
+
+  #sq-button-row > div {
+    height: 72px;
+  }
+
+  #sq-button {
+    border-radius: 30px;
+    font-size: 18px;
+    padding: 7px 15px;
+  }
+}
+
+@media (min-width: 720px) {
+  body {
+    font-size: 24px;
+  }
+
+  #sq-text-row > div {
+    height: 170px;
+  }
+
+  #sq-button-row > div {
+    height: 95px;
+  }
+
+  #sq-button {
+    border-radius: 40px;
+    font-size: 24px;
+    padding: 10px 20px;
+  }
 }
