@@ -21,4 +21,4 @@ let texts = [
 " <ruby>SWIFT<rt>スウィフト</rt></ruby> <ruby>QUEST<rt>クエスト</rt></ruby> を通してプログラミングを<ruby>好<rt>す</rt></ruby>きになってもらえたら、作者としてはそれが一番うれしいです。",
 "さあ、プログラミングをはじめましょう！"
 ];
-let next = "end-credits.html";
+let next = "about-preview.html";
