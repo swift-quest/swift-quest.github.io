@@ -45,6 +45,22 @@ section hr {
   border: 1px solid #eeeeee;
 }
 
+#sq-installation {
+
+}
+
+#sq-installation .sq-procedure .sq-item {
+  margin: 20px 0;
+}
+
+#sq-installation img {
+  width: 100%;
+}
+
+#sq-installation ul {
+  list-style-type: none;
+}
+
 #sq-contact>.row {
   padding-bottom: 40px;
 }
