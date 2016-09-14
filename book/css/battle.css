@@ -1,4 +1,5 @@
 html {
+  width: 100%;
   height: 100%;
 }
 body {
@@ -6,7 +7,6 @@ body {
   margin: 0;
   height: 100%;
   font-family: sans-serif;
-  font-size: 24px;
 }
 
 .sq-blink {
@@ -60,8 +60,8 @@ body {
 }
 
 #sq-status-box {
-  width: 640px;
-  margin: 20px auto 0 auto;
+  width: 90%;
+  max-width: 640px;
 }
 
 #sq-status-box table {
@@ -107,41 +107,24 @@ body {
   z-index: 0;
 }
 
-.sq-dark-lord > img {
-  width: 640px;
-}
-
 .sq-dark-knight {
   z-index: 1;
-}
-
-.sq-dark-knight > img {
-  width: 240px;
-  margin-right: -140px;
 }
 
 .sq-demon-priest {
   z-index: 1;
 }
 
-.sq-demon-priest > img {
-  width: 240px;
-  margin-left: -140px;
-}
-
 #sq-bottom {
   width: 100%;
-  height: 200px;
 }
 
 #sq-message-box {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 780px;
-  height: 140px;
-  margin: 0 auto 40px auto;
-  padding: 8px;
+  width: 90%;
+  max-width: 780px;
 }
 
 #sq-message-box > div:first-child {
@@ -153,9 +136,9 @@ body {
 }
 
 #sq-selections {
-  width: 800px;
+  width: 90%;
+  max-width: 800px;
   margin: 0 auto;
-  height: 200px;
   display: none;
 }
 
@@ -164,7 +147,6 @@ body {
 }
 
 .sq-selection > .sq-title {
-  padding: 0 8px;
   text-align: center;
   font-weight: bold;
   border-bottom: solid 1px #ffffff;
@@ -172,7 +154,6 @@ body {
 
 .sq-selection ul {
   margin: 0;
-  padding: 8px;
   list-style-type: none;
 }
 
@@ -180,7 +161,6 @@ body {
   color: #ffffff;
   border: none 0 #000000;
   background-color: transparent;
-  font-size: 24px;
 }
 
 .sq-selection button:disabled {
@@ -193,4 +173,240 @@ body {
   height: 100%;
   z-index: 999;
   visibility: hidden;
+}
+
+@media (max-width: 360px) {
+  body {
+    font-size: 10px;
+  }
+
+  .sq-selection button {
+    font-size: 10px;
+    padding: 0 1px;
+  }
+
+  .sq-selection button img {
+    width: 10px;
+  }
+
+  #sq-status-box {
+    margin: 8px auto 0 auto;
+  }
+
+  #sq-bottom {
+    height: 84px;
+  }
+
+  #sq-message-box {
+    height: 59px;
+    margin: 0 auto 17px auto;
+    padding: 4px;
+  }
+
+  #sq-message-box .sq-next-indicator img {
+    width: 10px;
+  }
+
+  #sq-selections {
+    height: 84px;
+  }
+
+  .sq-selection > .sq-title {
+    padding: 0 3px;
+  }
+
+  .sq-selection ul {
+    padding: 3px;
+  }
+
+  .sq-dark-lord > img {
+    width: 266px;
+  }
+
+  .sq-dark-knight > img {
+    width: 100px;
+    margin-right: -59px;
+  }
+
+  .sq-demon-priest > img {
+    width: 100px;
+    margin-left: -59px;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 540px) {
+  body {
+    font-size: 12px;
+  }
+
+  .sq-selection button {
+    font-size: 12px;
+    padding: 0 2px;
+  }
+
+  .sq-selection button img {
+    width: 12px;
+  }
+
+  #sq-status-box {
+    margin: 10px auto 0 auto;
+  }
+
+  #sq-bottom {
+    height: 100px;
+  }
+
+  #sq-message-box {
+    height: 70px;
+    margin: 0 auto 18px auto;
+    padding: 4px;
+  }
+
+  #sq-message-box .sq-next-indicator img {
+    width: 12px;
+  }
+
+  #sq-selections {
+    height: 100px;
+  }
+
+  .sq-selection > .sq-title {
+    padding: 0 4px;
+  }
+
+  .sq-selection ul {
+    padding: 4px;
+  }
+
+  .sq-dark-lord > img {
+    width: 320px;
+  }
+
+  .sq-dark-knight > img {
+    width: 120px;
+    margin-right: -70px;
+  }
+
+  .sq-demon-priest > img {
+    width: 120px;
+    margin-left: -70px;
+  }
+}
+
+@media (min-width: 540px) and (max-width: 720px) {
+  body {
+    font-size: 18px;
+  }
+
+  .sq-selection button {
+    font-size: 18px;
+    padding: 0 3px;
+  }
+
+  .sq-selection button img {
+    width: 18px;
+  }
+
+  #sq-status-box {
+    margin: 15px auto 0 auto;
+  }
+
+  #sq-bottom {
+    height: 150px;
+  }
+
+  #sq-message-box {
+    height: 105px;
+    margin: 0 auto 29px auto;
+    padding: 6px;
+  }
+
+  #sq-message-box .sq-next-indicator img {
+    width: 18px;
+  }
+
+  #sq-selections {
+      height: 150px;
+  }
+
+  .sq-selection > .sq-title {
+    padding: 0 6px;
+  }
+
+  .sq-selection ul {
+    padding: 6px;
+  }
+
+  .sq-dark-lord > img {
+    width: 480px;
+  }
+
+  .sq-dark-knight > img {
+    width: 180px;
+    margin-right: -105px;
+  }
+
+  .sq-demon-priest > img {
+    width: 180px;
+    margin-left: -105px;
+  }
+}
+
+@media (min-width: 720px) {
+  body {
+    font-size: 24px;
+  }
+
+  .sq-selection button {
+    font-size: 24px;
+    padding: 0 4px;
+  }
+
+  .sq-selection button img {
+    width: 24px;
+  }
+
+  #sq-status-box {
+    margin: 20px auto 0 auto;
+  }
+
+  #sq-bottom {
+    height: 200px;
+  }
+
+  #sq-message-box {
+    height: 140px;
+    margin: 0 auto 40px auto;
+    padding: 8px;
+  }
+
+  #sq-message-box .sq-next-indicator img {
+    width: 24px;
+  }
+
+  #sq-selections {
+    height: 200px;
+  }
+
+  .sq-selection > .sq-title {
+    padding: 0 8px;
+  }
+
+  .sq-selection ul {
+    padding: 8px;
+  }
+
+  .sq-dark-lord > img {
+    width: 640px;
+  }
+
+  .sq-dark-knight > img {
+    width: 240px;
+    margin-right: -140px;
+  }
+
+  .sq-demon-priest > img {
+    width: 240px;
+    margin-left: -140px;
+  }
 }
