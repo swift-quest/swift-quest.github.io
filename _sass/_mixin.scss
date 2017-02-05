@@ -1,0 +1,37 @@
+@mixin flex {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+}
+
+@mixin flex-direction($direction) {
+  @if $direction == column {
+    -webkit-flex-direction: vertical;
+    -moz-flex-direction: vertical;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  } @else {
+    -webkit-flex-direction: horizontal;
+    -moz-flex-direction: horizontal;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@mixin justify-content($alignment) {
+  -webkit-justify-content: $alignment;
+  -moz-justify-content: $alignment;
+  -ms-justify-content: $alignment;
+  justify-content: $alignment;
+}
+
+@mixin align-items($alignment) {
+  -webkit-align-items: $alignment;
+  -moz-align-items: $alignment;
+  -ms-align-items: $alignment;
+  align-items: $alignment;
+}

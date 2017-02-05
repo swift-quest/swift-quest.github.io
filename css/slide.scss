@@ -1,0 +1,166 @@
+---
+---
+
+@import "mixin";
+@import "color";
+
+$code-color: #ffffff;
+$code-background-color: #555555;
+$output-color: #ffffff;
+$output-background-color: #000000;
+$subtitle-color: #000000;
+$subtitle-background-color: #eeeeee;
+$button-color: $primary;
+$button-size: 50px;
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.sq-slide {
+  @include flex();
+  @include flex-direction(column);
+  width: 100%;
+  height: 100%;
+
+  .sq-upper {
+    flex-grow: 1;
+    position: relative;
+    @include flex();
+    @media all and (orientation: landscape) {
+      @include flex-direction(row);
+
+      .sq-left,.sq-right {
+        position: absolute;
+        width: 50%;
+        height: 100%;
+      }
+
+      .sq-right {
+        left: 50%;
+      }
+    }
+    @media all and (orientation: portrait) {
+      @include flex-direction(column);
+
+      .sq-left,.sq-right {
+        position: absolute;
+        width: 100%;
+        height: 50%;
+      }
+
+      .sq-right {
+        top: 50%;
+      }
+    }
+  }
+
+  .sq-lower {
+    @include flex();
+    @include flex-direction(row);
+    color: $subtitle-color;
+    background-color: $subtitle-background-color;
+
+    @media all and (orientation: landscape) {
+      height: 60pt;
+      font-size: 12pt;
+    }
+    @media all and (orientation: portrait) {
+      height: 80pt;
+      font-size: 10pt;
+    }
+
+    .sq-left,.sq-right {
+      height: 100%;
+      text-align: center;
+      @include flex();
+      @include flex-direction(column);
+      @include justify-content(center);
+      @include align-items(center);
+
+      button {
+        width: $button-size;
+        height: $button-size;
+        font-size: x-large;
+        color: $button-color;
+        background-color: white;
+        border: solid 4px $button-color;
+        border-radius: $button-size / 2;
+        margin: 10px;
+      }
+
+      button:enabled:active {
+        color: white;
+        background-color: $button-color;
+      }
+
+      button:disabled {
+        opacity: 0.5;
+      }
+
+      button:focus {
+        outline: none;
+      }
+    }
+
+    .sq-center {
+      flex-grow: 1;
+      @include flex();
+      @include flex-direction(column);
+      @include justify-content(center);
+
+      p.sq-subtitle {
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+}
+
+pre {
+  border: none;
+  border-radius: 0;
+  font-size: 12pt;
+  margin: 0;
+  padding: 9.5px 0 9.5px 9.5px;
+}
+
+pre.sq-code {
+  color: $code-color;
+  background-color: $code-background-color;
+  height: 100%;
+  font-weight: bold;
+}
+
+pre.sq-output {
+  color: $output-color;
+  background-color: $output-background-color;
+  height: 100%;
+  font-weight: bold;
+}
+
+code.sq-code {
+  color: $code-color;
+  background-color: $code-background-color;
+  border: none;
+  font-weight: bold;
+}
+
+code.sq-output {
+  color: $output-color;
+  background-color: $output-background-color;
+  border: none;
+  font-weight: bold;
+}
+
+div.sq-code {
+  height: 100%;
+}
+
+div.sq-output {
+  height: 100%;
+}
