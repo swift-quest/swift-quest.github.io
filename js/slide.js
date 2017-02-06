@@ -103,7 +103,7 @@ function show(pageIndex) {
         $("> *", upperRight).detach();
         upperRight.append(page);
       };
-      if (i == pageIndex) {
+      if (i == pageIndex && !page.hasClass("sq-guide")) {
         upperRight.append('<div class="sq-spinner"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i></div>');
         setTimeout(() => {
           showResult();

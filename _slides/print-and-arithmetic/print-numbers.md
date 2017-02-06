@@ -11,13 +11,11 @@ title: "数字のprint"
 
 画面中のグレーのエリアはプログラムを書く場所です。
 
-<pre><code><span>プログラムを書く場所</span></code></pre>
+<pre class="sq-guide"><code><span>プログラムを書く場所</span></code></pre>
 
 黒いエリアはプログラムを実行した結果を表示する場所です。
 
-```
-プログラムの実行結果を表示する場所
-```
+<pre class="sq-guide"><code>実行結果を表示する場所</code></pre>
 
 画面に文字を表示するには `print` という命令を使います。
 
