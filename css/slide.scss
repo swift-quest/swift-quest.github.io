@@ -56,6 +56,16 @@ body {
         top: 50%;
       }
     }
+
+    .sq-left {
+      color: $code-color;
+      background-color: $code-background-color;
+    }
+
+    .sq-right {
+      color: $output-color;
+      background-color: $output-background-color;
+    }
   }
 
   .sq-lower {

@@ -88,9 +88,7 @@ function show(pageIndex) {
   }
 
   $("> *", upperLeft).detach();
-  upperLeft.append('<pre class="sq-code"></pre>');
   $("> *", upperRight).detach();
-  upperRight.append('<pre class="sq-output"></pre>');
   $("> *", lowerCenter).detach();
 
   for (let i = 0; i <= pageIndex; i++) {
