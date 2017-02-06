@@ -99,7 +99,18 @@ function show(pageIndex) {
     }
     if (page.hasClass("sq-output")) {
       $("> *", upperRight).detach();
-      upperRight.append(page);
+      let showResult = () => {
+        $("> *", upperRight).detach();
+        upperRight.append(page);
+      };
+      if (i == pageIndex) {
+        upperRight.append('<div class="sq-spinner"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i></div>');
+        setTimeout(() => {
+          showResult();
+        }, 500);
+      } else {
+        showResult();
+      }
     }
     if (page.hasClass("sq-subtitle")) {
       $("> *", lowerCenter).detach();
