@@ -150,6 +150,8 @@ function show(pageIndex, action) {
     let page = $(pages[i]);
     if (page.hasClass("sq-code")) {
       if (i == pageIndex && !page.hasClass("sq-guide") && action == "next") {
+        upperLeft.addClass("sq-highlighted");
+
         let before = $(".sq-guide", upperLeft).length != 0 ? "" : upperLeft.text();
         page.wrap("<div></div>");
         let after = page.parent().text();
@@ -159,14 +161,21 @@ function show(pageIndex, action) {
 
         $("> *", upperLeft).detach();
         upperLeft.append('<pre class="sq-code"><code></code></pre>');
+        let target = $("code", upperLeft);
+        if (animation.length > 0) {
+          target.html(before);
+        }
         prevButton.prop("disabled", true);
         nextButton.prop("disabled", true);
-        playAnimation(animation, $("code", upperLeft), 80, () => {
-          $("> *", upperLeft).detach();
-          upperLeft.append(page);
-          prevButton.prop("disabled", false);
-          nextButton.prop("disabled", false);
-        });
+        setTimeout(() => {
+          playAnimation(animation, target, 80, () => {
+            $("> *", upperLeft).detach();
+            upperLeft.append(page);
+            prevButton.prop("disabled", false);
+            nextButton.prop("disabled", false);
+            upperLeft.removeClass("sq-highlighted");
+          });
+        }, 800);
       } else {
         $("> *", upperLeft).detach();
         upperLeft.append(page);

@@ -6,6 +6,7 @@
 
 $code-color: #ffffff;
 $code-background-color: #555555;
+$code-highlighted-background-color: #777777;
 $output-color: #ffffff;
 $output-background-color: #000000;
 $subtitle-color: #000000;
@@ -71,6 +72,10 @@ body {
     .sq-left {
       color: $code-color;
       background-color: $code-background-color;
+    }
+
+    .sq-left.sq-highlighted {
+      background-color: $code-highlighted-background-color;
     }
 
     .sq-right {
@@ -161,14 +166,14 @@ pre {
 
 pre.sq-code {
   color: $code-color;
-  background-color: $code-background-color;
+  background-color: transparent;
   height: 100%;
   font-weight: bold;
 }
 
 pre.sq-output {
   color: $output-color;
-  background-color: $output-background-color;
+  background-color: transparent;
   height: 100%;
   font-weight: bold;
 }
