@@ -46,15 +46,12 @@ function codeDiffAnimation(before, after) {
       for (let endIndex = 1; endIndex <= partValue.length; endIndex++) {
         animation.push(done(diff, partIndex) + partValue.substring(0, endIndex) + undone(diff, partIndex + 1));
       }
-      console.log("+ " + part.value);
     } else if (part.removed) {
       for (let endIndex = partValue.length - 1; endIndex >= 0; endIndex--) {
         animation.push(done(diff, partIndex) + partValue.substring(0, endIndex) + undone(diff, partIndex + 1));
       }
-      console.log("- " + part.value);
     } else {
       animation.push(done(diff, partIndex) + partValue + undone(diff, partIndex + 1));
-      console.log("  " + part.value);
     }
   }
 
@@ -158,11 +155,7 @@ function show(pageIndex, action) {
         let after = page.parent().text();
         page.unwrap();
 
-        console.log("BEFORE: " + before);
-        console.log("AFTER: " + after);
-
         let animation = codeDiffAnimation(before, after);
-        console.log("ANIMATION: " + animation);
 
         $("> *", upperLeft).detach();
         upperLeft.append('<pre class="sq-code"><code></code></pre>');
