@@ -7,14 +7,6 @@ let lowerCenter;
 let prevButton;
 let nextButton;
 
-function enumerate(array /*: JQuery*/) {
-  let enumerated = [];
-  for (let index = 0; index < array.length; index++) {
-    enumerated.push([index, array[index]]);
-  }
-  return enumerated;
-}
-
 function codeDiffAnimation(before, after) {
   let animation = []
 
