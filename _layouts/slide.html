@@ -28,8 +28,23 @@
     <script src="/js/slide.js"></script>
   </head>
   <body>
-    <article class="sq-slide">
+    <article id="sq-slide">
+      <div class="sq-upper">
+        <div class="sq-left"></div>
+        <div class="sq-right"></div>
+      </div>
+      <div class="sq-lower">
+        <div class="sq-left">
+          <button><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+        </div>
+        <div class="sq-center"></div>
+        <div class="sq-right">
+          <button><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div id="sq-content">
         {{ content }}
+      </div>
     </article>
     {% include analytics.html %}
   </body>

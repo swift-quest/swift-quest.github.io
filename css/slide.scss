@@ -21,7 +21,11 @@ body {
   padding: 0;
 }
 
-.sq-slide {
+#sq-content {
+  display: none;
+}
+
+#sq-slide {
   @include flex();
   @include flex-direction(column);
   width: 100%;

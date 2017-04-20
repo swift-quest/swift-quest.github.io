@@ -63,49 +63,33 @@ function playAnimation(animation, target, delay, completion) {
 }
 
 function initializePage() {
-  let main = $(".sq-slide")
+  let content = $("#sq-content");
 
-  $("p", main).addClass("sq-subtitle");
-  $("pre:has(code span)", main).addClass("sq-code");
-  $("pre:not(:has(code span))", main).addClass("sq-output");
-  $("div:has(pre.sq-code)", main).addClass("sq-code");
-  $("div:has(pre.sq-output)", main).addClass("sq-output");
+  $("p", content).addClass("sq-subtitle");
+  $("pre:has(code span)", content).addClass("sq-code");
+  $("pre:not(:has(code span))", content).addClass("sq-output");
+  $("div:has(pre.sq-code)", content).addClass("sq-code");
+  $("div:has(pre.sq-output)", content).addClass("sq-output");
   $("code.highlighter-rouge").addClass("sq-code");
 
-  pages = $("> *", main);
-  pages.detach();
+  pages = $("> *", content);
 
-  // subtitles = $("p.sq-subtitle").detach();
-  // codes = $("div.sq-code").detach();
-  // outputs = $("div.sq-output").detach();
+  let slide = $("#sq-slide");
 
-  main.append('<div class="sq-upper"></div>');
-  let upper = $(".sq-upper", main);
-  main.append('<div class="sq-lower"></div>');
-  let lower = $(".sq-lower", main);
+  let upper = $(".sq-upper", slide);
+  let lower = $(".sq-lower", slide);
 
-  upper.append('<div class="sq-left"></div>');
   upperLeft = $(".sq-left", upper);
-  upper.append('<div class="sq-right"></div>');
   upperRight = $(".sq-right", upper);
 
-  lower.append('<div class="sq-left"></div>');
   let lowerLeft = $(".sq-left", lower);
-  lower.append('<div class="sq-center"></div>');
   lowerCenter = $(".sq-center", lower);
-  lower.append('<div class="sq-right"></div>');
   let lowerRight = $(".sq-right", lower);
 
-  // upperLeft.append(codes);
-  // upperRight.append(outputs);
-
-  lowerLeft.append('<button><i class="fa fa-arrow-left" aria-hidden="true"></i></button>');
   prevButton = $("button", lowerLeft);
   prevButton.click(() => {
     prev();
   });
-  // lowerCenter.append(subtitles);
-  lowerRight.append('<button><i class="fa fa-arrow-right" aria-hidden="true"></i></button>');
   nextButton = $("button", lowerRight);
   nextButton.click(() => {
     next();
