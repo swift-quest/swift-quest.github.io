@@ -11,7 +11,7 @@ function codeDiffAnimation(before, after) {
   let animation = []
 
   let diff = JsDiff.diffChars(before, after);
-  function done(diff, toPartIndex) {
+  let done = (diff, toPartIndex) => {
     let result = "";
     for (let partIndex = 0; partIndex < toPartIndex; partIndex++) {
       let part = diff[partIndex];
@@ -20,8 +20,8 @@ function codeDiffAnimation(before, after) {
       }
     }
     return result;
-  }
-  function undone(diff, fromPartIndex) {
+  };
+  let undone = (diff, fromPartIndex) => {
     let result = "";
     for (let partIndex = fromPartIndex; partIndex < diff.length; partIndex++) {
       let part = diff[partIndex];
@@ -30,7 +30,7 @@ function codeDiffAnimation(before, after) {
       }
     }
     return result;
-  }
+  };
   for (let partIndex = 0; partIndex < diff.length; partIndex++) {
     let part = diff[partIndex];
     let partValue = part.value;
