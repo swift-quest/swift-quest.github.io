@@ -50,7 +50,14 @@ function codeDiffAnimation(before, after) {
   return animation;
 }
 
-function playAnimation(animation, target, interval, completion) {
+function playAnimation(animation, target, delay, interval, completion) {
+  if (delay > 0) {
+    setTimeout(() => {
+      playAnimation(animation, target, 0, interval, completion);
+    }, delay);
+    return;
+  }
+
   if (animation.length == 0) {
     completion();
     return;
@@ -58,7 +65,7 @@ function playAnimation(animation, target, interval, completion) {
 
   target.html(animation[0]);
   setTimeout(() => {
-    playAnimation(animation.slice(1, animation.length), target, interval, completion);
+    playAnimation(animation.slice(1, animation.length), target, 0, interval, completion);
   }, interval);
 }
 
@@ -143,15 +150,13 @@ function show(pageIndex, action) {
         }
         prevButton.prop("disabled", true);
         nextButton.prop("disabled", true);
-        setTimeout(() => {
-          playAnimation(animation, target, 80, () => {
-            $("> *", upperLeft).detach();
-            upperLeft.append(page);
-            prevButton.prop("disabled", false);
-            nextButton.prop("disabled", false);
-            upperLeft.removeClass("sq-highlighted");
-          });
-        }, 800);
+        playAnimation(animation, target, 800, 80, () => {
+          $("> *", upperLeft).detach();
+          upperLeft.append(page);
+          prevButton.prop("disabled", false);
+          nextButton.prop("disabled", false);
+          upperLeft.removeClass("sq-highlighted");
+        });
       } else {
         $("> *", upperLeft).detach();
         upperLeft.append(page);
