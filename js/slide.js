@@ -50,7 +50,7 @@ function codeDiffAnimation(before, after) {
   return animation;
 }
 
-function playAnimation(animation, target, delay, completion) {
+function playAnimation(animation, target, interval, completion) {
   if (animation.length == 0) {
     completion();
     return;
@@ -58,8 +58,8 @@ function playAnimation(animation, target, delay, completion) {
 
   target.html(animation[0]);
   setTimeout(() => {
-    playAnimation(animation.slice(1, animation.length), target, delay, completion);
-  }, delay);
+    playAnimation(animation.slice(1, animation.length), target, interval, completion);
+  }, interval);
 }
 
 function initializePage() {
