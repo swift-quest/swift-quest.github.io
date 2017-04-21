@@ -125,10 +125,14 @@ function show(pageIndex, action) {
     nextButton.prop("disabled", false);
   }
 
+  // page で変わる要素は code, output, subtitle の一つだけなので
+  // 単純に "prev" を実行するとそのページで表示されるべき内容より
+  // 新しいページの内容が表示されてしまう。
+  // そのため、毎回最初のページからたどって
+  // そのページで表示されるべき code, output, subtitle を探す。
   $("> *", upperLeft).detach();
   $("> *", upperRight).detach();
   $("> *", lowerCenter).detach();
-
   for (let i = 0; i <= pageIndex; i++) {
     let page = $(pages[i]);
     if (page.hasClass("sq-code")) {
