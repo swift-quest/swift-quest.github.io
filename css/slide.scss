@@ -4,8 +4,6 @@
 @import "mixin";
 @import "color";
 
-$code-color: #ffffff;
-$code-background-color: #555555;
 $code-highlighted-background-color: #777777;
 $output-color: #ffffff;
 $output-background-color: #000000;
@@ -76,6 +74,15 @@ body {
     .sq-left {
       color: $code-color;
       background-color: $code-background-color;
+
+      textarea {
+        display: none;
+      }
+
+      div.CodeMirror {
+        height: 100%;
+        background: none;
+      }
     }
 
     .sq-left.sq-highlighted {

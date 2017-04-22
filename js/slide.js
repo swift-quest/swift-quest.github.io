@@ -5,9 +5,8 @@ let upperRight;
 let lowerCenter;
 
 let codeView;
-let codeBodyView;
+let codeEntity;
 let outputView;
-let outputBodyView;
 let subtitleView;
 
 let prevButton;
@@ -56,10 +55,10 @@ function codeDiffAnimation(before, after) {
   return animation;
 }
 
-function playAnimation(animation, target, delay, interval, completion) {
+function playAnimation(animation, target, delay, interval, update, completion) {
   if (delay > 0) {
     setTimeout(() => {
-      playAnimation(animation, target, 0, interval, completion);
+      playAnimation(animation, target, 0, interval, update, completion);
     }, delay);
     return;
   }
@@ -69,9 +68,9 @@ function playAnimation(animation, target, delay, interval, completion) {
     return;
   }
 
-  target.html(animation[0]);
+  update(target, animation[0]);
   setTimeout(() => {
-    playAnimation(animation.slice(1, animation.length), target, 0, interval, completion);
+    playAnimation(animation.slice(1, animation.length), target, 0, interval, update, completion);
   }, interval);
 }
 
@@ -95,9 +94,15 @@ function initializePage() {
   upperLeft = $(".sq-left", upper);
   upperRight = $(".sq-right", upper);
 
-  codeView = $(".sq-code", upperLeft);
+  codeEntity = CodeMirror.fromTextArea($(".sq-code", upperLeft)[0], {
+    lineWrapping: true,
+    indentUnit: 4,
+    readOnly: true,
+    mode: "text/x-swift",
+    theme: "quest",
+  });
+  codeView = $("> *", upperLeft);
   $("> *", upperLeft).detach();
-  codeBodyView = $("code", codeView);
 
   let lowerLeft = $(".sq-left", lower);
   lowerCenter = $(".sq-center", lower);
@@ -141,7 +146,7 @@ function show(pageIndex, action) {
   // そのため、毎回最初のページからたどって
   // そのページで表示されるべき code, output, subtitle を探す。
   $("> *", upperLeft).detach();
-  codeBodyView.text("");
+  codeEntity.setValue("");
   $("> *", upperRight).detach();
   $("> *", lowerCenter).detach();
   for (let i = 0; i <= pageIndex; i++) {
@@ -156,18 +161,26 @@ function show(pageIndex, action) {
         let after = $("code", page).text();
 
         if (i == pageIndex && action == "next") {
-          let before = codeBodyView.text();
+          let before = codeEntity.getValue();
+
+          // codeEntity が append されてない状態で setValue しても
+          // 表示が変更されないので、最初に code のページが表示される前に
+          // 戻って再表示すると以前のコードが残ってしまう問題の対処。
+          codeEntity.setValue(before);
+
           let animation = codeDiffAnimation(before, after);
           upperLeft.addClass("sq-highlighted");
           prevButton.prop("disabled", true);
           nextButton.prop("disabled", true);
-          playAnimation(animation, codeBodyView, 800, 80, () => {
+          playAnimation(animation, codeEntity, 800, 80, (target, value) => {
+            target.setValue(value);
+          }, () => {
             prevButton.prop("disabled", false);
             nextButton.prop("disabled", false);
             upperLeft.removeClass("sq-highlighted");
           });
         } else {
-          codeBodyView.text(after);
+          codeEntity.setValue(after);
         }
       }
     }
