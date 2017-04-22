@@ -4,6 +4,12 @@ let upperLeft;
 let upperRight;
 let lowerCenter;
 
+let codeView;
+let codeBodyView;
+let outputView;
+let outputBodyView;
+let subtitleView;
+
 let prevButton;
 let nextButton;
 
@@ -89,6 +95,10 @@ function initializePage() {
   upperLeft = $(".sq-left", upper);
   upperRight = $(".sq-right", upper);
 
+  codeView = $(".sq-code", upperLeft);
+  $("> *", upperLeft).detach();
+  codeBodyView = $("code", codeView);
+
   let lowerLeft = $(".sq-left", lower);
   lowerCenter = $(".sq-center", lower);
   let lowerRight = $(".sq-right", lower);
@@ -131,39 +141,34 @@ function show(pageIndex, action) {
   // そのため、毎回最初のページからたどって
   // そのページで表示されるべき code, output, subtitle を探す。
   $("> *", upperLeft).detach();
+  codeBodyView.text("");
   $("> *", upperRight).detach();
   $("> *", lowerCenter).detach();
   for (let i = 0; i <= pageIndex; i++) {
     let page = $(pages[i]);
     if (page.hasClass("sq-code")) {
-      if (i == pageIndex && !page.hasClass("sq-guide") && action == "next") {
-        upperLeft.addClass("sq-highlighted");
+      $("> *", upperLeft).detach();
 
-        let before = $(".sq-guide", upperLeft).length != 0 ? "" : upperLeft.text();
-        page.wrap("<div></div>");
-        let after = page.parent().text();
-        page.unwrap();
-
-        let animation = codeDiffAnimation(before, after);
-
-        $("> *", upperLeft).detach();
-        upperLeft.append('<pre class="sq-code"><code></code></pre>');
-        let target = $("code", upperLeft);
-        if (animation.length > 0) {
-          target.html(before);
-        }
-        prevButton.prop("disabled", true);
-        nextButton.prop("disabled", true);
-        playAnimation(animation, target, 800, 80, () => {
-          $("> *", upperLeft).detach();
-          upperLeft.append(page);
-          prevButton.prop("disabled", false);
-          nextButton.prop("disabled", false);
-          upperLeft.removeClass("sq-highlighted");
-        });
-      } else {
-        $("> *", upperLeft).detach();
+      if (page.hasClass("sq-guide")) {
         upperLeft.append(page);
+      } else {
+        upperLeft.append(codeView);
+        let after = $("code", page).text();
+
+        if (i == pageIndex && action == "next") {
+          let before = codeBodyView.text();
+          let animation = codeDiffAnimation(before, after);
+          upperLeft.addClass("sq-highlighted");
+          prevButton.prop("disabled", true);
+          nextButton.prop("disabled", true);
+          playAnimation(animation, codeBodyView, 800, 80, () => {
+            prevButton.prop("disabled", false);
+            nextButton.prop("disabled", false);
+            upperLeft.removeClass("sq-highlighted");
+          });
+        } else {
+          codeBodyView.text(after);
+        }
       }
     }
     if (page.hasClass("sq-output")) {
