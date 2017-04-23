@@ -12,8 +12,23 @@ let subtitleView;
 let prevButton;
 let nextButton;
 
+class CursorPosition {
+  constructor(line, character) {
+    this.line = line;
+    this.character = character;
+  }
+}
+
+class AnimationFrame {
+  constructor(cursorPosition, action, value = null) {
+    this.cursorPosition = cursorPosition;
+    this.action = action;
+    this.value = value;
+  }
+}
+
 function codeDiffAnimation(before, after) {
-  let animation = []
+  let animation = [];
 
   let diff = JsDiff.diffChars(before, after);
   let done = (diff, toPartIndex) => {
@@ -42,17 +57,47 @@ function codeDiffAnimation(before, after) {
     if (part.added) {
       let doneString = done(diff, partIndex);
       let undoneString = undone(diff, partIndex + 1);
+      let lines = doneString.split("\n");
+      let row = lines.length - 1;
+      let column = lines[row].length;
       for (let endIndex = 1; endIndex <= partValue.length; endIndex++) {
-        animation.push(doneString + partValue.substring(0, endIndex) + undoneString);
+        let character = partValue[endIndex - 1]
+        animation.push(new AnimationFrame(
+          new CursorPosition(row, column),
+          "insert",
+          character
+        ));
+        if (character == "\n") {
+          row++;
+          column = 0;
+        } else {
+          column++;
+        }
       }
     } else if (part.removed) {
       let doneString = done(diff, partIndex);
       let undoneString = undone(diff, partIndex + 1);
-      for (let endIndex = partValue.length - 1; endIndex >= 0; endIndex--) {
-        animation.push(doneString + partValue.substring(0, endIndex) + undoneString);
+      let lines = (doneString + partValue).split("\n");
+      let row = lines.length - 1;
+      let column = lines[row].length;
+      for (let endIndex = partValue.length; endIndex > 0; endIndex--) {
+        let character = partValue[endIndex - 1]
+        animation.push(new AnimationFrame(
+          new CursorPosition(row, column),
+          "delete"
+        ));
+        if (character == "\n") {
+          row--;
+          if (row < 0) {
+            row = 0;
+            column = 0;
+          } else {
+            column = lines[row].length;
+          }
+        } else {
+          column--;
+        }
       }
-    } else {
-      animation.push(done(diff, partIndex) + partValue + undone(diff, partIndex + 1));
     }
   }
 
@@ -173,11 +218,33 @@ function show(pageIndex, action) {
           codeEntity.setValue(before);
 
           let animation = codeDiffAnimation(before, after);
+          console.log({
+            "before": before,
+            "after": after,
+            "editor": codeEntity.getValue(),
+          });
           upperLeft.addClass("sq-highlighted");
           prevButton.prop("disabled", true);
           nextButton.prop("disabled", true);
-          playAnimation(animation, codeEntity, 800, 80, (target, value) => {
-            target.setValue(value);
+          playAnimation(animation, codeEntity, 800, 80, (target, frame) => {
+            let cursorPosition = {
+              line: frame.cursorPosition.line,
+              ch: frame.cursorPosition.character
+            };
+            target.setCursor(cursorPosition.line, cursorPosition.ch);
+            console.log(frame);
+            console.log(cursorPosition);
+            console.log(target.getCursor());
+            target.scrollIntoView(cursorPosition);
+            if (frame.action == "insert") {
+              target.getDoc().replaceRange(frame.value, cursorPosition, cursorPosition);
+            } else if (frame.action == "delete") {
+              target.execCommand("delCharBefore");
+            } else {
+              throw "Never reaches here.";
+            }
+            console.log({value: target.getValue()});
+            //target.setValue(frame.string);
           }, () => {
             prevButton.prop("disabled", false);
             nextButton.prop("disabled", false);
