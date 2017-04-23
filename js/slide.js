@@ -104,7 +104,7 @@ function codeDiffAnimation(before, after) {
   return animation;
 }
 
-function playAnimation(animation, target, delay, interval, update, completion) {
+function playAnimation(animation, target, delay, interval, update, completion = null) {
   if (delay > 0) {
     setTimeout(() => {
       playAnimation(animation, target, 0, interval, update, completion);
@@ -113,14 +113,22 @@ function playAnimation(animation, target, delay, interval, update, completion) {
   }
 
   if (animation.length == 0) {
-    completion();
+    if (completion != null) {
+      completion();
+    }
     return;
   }
 
   update(target, animation[0]);
-  setTimeout(() => {
+
+  let doPlayAnimation = () => {
     playAnimation(animation.slice(1, animation.length), target, 0, interval, update, completion);
-  }, interval);
+  }
+  if (interval == 0) {
+    doPlayAnimation();
+  } else {
+    setTimeout(doPlayAnimation, interval);
+  }
 }
 
 function initializePage() {
@@ -151,7 +159,6 @@ function initializePage() {
     theme: "quest",
   });
   codeView = $("> *", upperLeft);
-  $("> *", upperLeft).detach();
 
   let lowerLeft = $(".sq-left", lower);
   lowerCenter = $(".sq-center", lower);
@@ -194,77 +201,104 @@ function show(pageIndex, action) {
   // 新しいページの内容が表示されてしまう。
   // そのため、毎回最初のページからたどって
   // そのページで表示されるべき code, output, subtitle を探す。
-  $("> *", upperLeft).detach();
-  codeEntity.setValue("");
-  $("> *", upperRight).detach();
-  $("> *", lowerCenter).detach();
+  let codePage = null;
+  let outputPage = null;
+  let subtitlePage = null;
   for (let i = 0; i <= pageIndex; i++) {
     let page = $(pages[i]);
     if (page.hasClass("sq-code")) {
-      $("> *", upperLeft).detach();
-
-      if (page.hasClass("sq-guide")) {
-        upperLeft.append(page);
-      } else {
-        upperLeft.append(codeView);
-        let after = $("code", page).text();
-
-        if (i == pageIndex && action == "next") {
-          let before = codeEntity.getValue();
-
-          // codeEntity が append されてない状態で setValue しても
-          // 表示が変更されないので、最初に code のページが表示される前に
-          // 戻って再表示すると以前のコードが残ってしまう問題の対処。
-          codeEntity.setValue(before);
-
-          let animation = codeDiffAnimation(before, after);
-          upperLeft.addClass("sq-highlighted");
-          prevButton.prop("disabled", true);
-          nextButton.prop("disabled", true);
-          playAnimation(animation, codeEntity, 800, 80, (target, frame) => {
-            let cursorPosition = {
-              line: frame.cursorPosition.line,
-              ch: frame.cursorPosition.character
-            };
-            target.setCursor(cursorPosition.line, cursorPosition.ch);
-            target.scrollIntoView(cursorPosition);
-            if (frame.action == "insert") {
-              target.getDoc().replaceRange(frame.value, cursorPosition, cursorPosition);
-            } else if (frame.action == "delete") {
-              target.execCommand("delCharBefore");
-            } else {
-              throw "Never reaches here.";
-            }
-          }, () => {
-            prevButton.prop("disabled", false);
-            nextButton.prop("disabled", false);
-            upperLeft.removeClass("sq-highlighted");
-          });
-        } else {
-          codeEntity.setValue(after);
-        }
-      }
-    }
-    if (page.hasClass("sq-output")) {
-      $("> *", upperRight).detach();
-      let showResult = () => {
-        $("> *", upperRight).detach();
-        upperRight.append(page);
-      };
-      if (i == pageIndex && !page.hasClass("sq-guide") && action == "next") {
-        upperRight.append('<div class="sq-spinner"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i></div>');
-        setTimeout(() => {
-          showResult();
-        }, 500);
-      } else {
-        showResult();
-      }
-    }
-    if (page.hasClass("sq-subtitle")) {
-      $("> *", lowerCenter).detach();
-      lowerCenter.append(page);
+      codePage = page;
+    } else if (page.hasClass("sq-output")) {
+      outputPage = page;
+    } else if (page.hasClass("sq-subtitle")) {
+      subtitlePage = page;
     }
   }
+
+  let targetPage = pages[pageIndex];
+  let isTargetPage = (page) => {
+    if (page == null) {
+      return false;
+    }
+    return page[0] == targetPage; // page は JQeury 型なので [0] が必要
+  };
+
+  showCode(codePage, action, isTargetPage(codePage));
+  showOutput(outputPage, action, isTargetPage(outputPage));
+  showSubtitle(subtitlePage, action, isTargetPage(subtitlePage));
+}
+
+function showCode(page, action, isTargetPage) {
+  let before = codeEntity.getValue();
+  let after;
+  if (page == null) {
+    after = "";
+  } else if (page.hasClass("sq-guide")) {
+    after = before;
+  } else {
+    after = $("code", page).text();
+  }
+
+  let animation = codeDiffAnimation(before, after);
+  let makeUpdate = (enablesScroll) => {
+    return (target, frame) => {
+      let cursorPosition = {
+        line: frame.cursorPosition.line,
+        ch: frame.cursorPosition.character
+      };
+      target.setCursor(cursorPosition.line, cursorPosition.ch);
+      if (enablesScroll) {
+        target.scrollIntoView(cursorPosition);
+      }
+      if (frame.action == "insert") {
+        target.getDoc().replaceRange(frame.value, cursorPosition, cursorPosition);
+      } else if (frame.action == "delete") {
+        target.execCommand("delCharBefore");
+      } else {
+        throw "Never reaches here.";
+      }
+    };
+  }
+
+  if (isTargetPage && action == "next") {
+    upperLeft.addClass("sq-highlighted");
+    prevButton.prop("disabled", true);
+    nextButton.prop("disabled", true);
+    playAnimation(animation, codeEntity, 800, 80, makeUpdate(true), () => {
+      prevButton.prop("disabled", false);
+      nextButton.prop("disabled", false);
+      upperLeft.removeClass("sq-highlighted");
+    });
+  } else {
+    playAnimation(animation, codeEntity, 0, 0, makeUpdate(false));
+  }
+}
+
+function showOutput(page, action, isTargetPage) {
+  $("> *", upperRight).detach();
+  if (page == null) {
+    return;
+  }
+  let showResult = () => {
+    $("> *", upperRight).detach();
+    upperRight.append(page);
+  };
+  if (isTargetPage && !page.hasClass("sq-guide") && action == "next") {
+    upperRight.append('<div class="sq-spinner"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i></div>');
+    setTimeout(() => {
+      showResult();
+    }, 500);
+  } else {
+    showResult();
+  }
+}
+
+function showSubtitle(page, action, isTargetPage) {
+  $("> *", lowerCenter).detach();
+  if (page == null) {
+    return;
+  }
+  lowerCenter.append(page);
 }
 
 $(() => {
