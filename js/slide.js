@@ -218,11 +218,6 @@ function show(pageIndex, action) {
           codeEntity.setValue(before);
 
           let animation = codeDiffAnimation(before, after);
-          console.log({
-            "before": before,
-            "after": after,
-            "editor": codeEntity.getValue(),
-          });
           upperLeft.addClass("sq-highlighted");
           prevButton.prop("disabled", true);
           nextButton.prop("disabled", true);
@@ -232,9 +227,6 @@ function show(pageIndex, action) {
               ch: frame.cursorPosition.character
             };
             target.setCursor(cursorPosition.line, cursorPosition.ch);
-            console.log(frame);
-            console.log(cursorPosition);
-            console.log(target.getCursor());
             target.scrollIntoView(cursorPosition);
             if (frame.action == "insert") {
               target.getDoc().replaceRange(frame.value, cursorPosition, cursorPosition);
@@ -243,8 +235,6 @@ function show(pageIndex, action) {
             } else {
               throw "Never reaches here.";
             }
-            console.log({value: target.getValue()});
-            //target.setValue(frame.string);
           }, () => {
             prevButton.prop("disabled", false);
             nextButton.prop("disabled", false);
