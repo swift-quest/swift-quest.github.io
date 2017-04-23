@@ -40,12 +40,16 @@ function codeDiffAnimation(before, after) {
     let part = diff[partIndex];
     let partValue = part.value;
     if (part.added) {
+      let doneString = done(diff, partIndex);
+      let undoneString = undone(diff, partIndex + 1);
       for (let endIndex = 1; endIndex <= partValue.length; endIndex++) {
-        animation.push(done(diff, partIndex) + partValue.substring(0, endIndex) + undone(diff, partIndex + 1));
+        animation.push(doneString + partValue.substring(0, endIndex) + undoneString);
       }
     } else if (part.removed) {
+      let doneString = done(diff, partIndex);
+      let undoneString = undone(diff, partIndex + 1);
       for (let endIndex = partValue.length - 1; endIndex >= 0; endIndex--) {
-        animation.push(done(diff, partIndex) + partValue.substring(0, endIndex) + undone(diff, partIndex + 1));
+        animation.push(doneString + partValue.substring(0, endIndex) + undoneString);
       }
     } else {
       animation.push(done(diff, partIndex) + partValue + undone(diff, partIndex + 1));
