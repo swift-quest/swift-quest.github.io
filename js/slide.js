@@ -4,9 +4,8 @@ let upperLeft;
 let upperRight;
 let lowerCenter;
 
-let codeView;
 let codeEntity;
-let outputView;
+let outputEntity;
 let subtitleView;
 
 let prevButton;
@@ -151,14 +150,14 @@ function initializePage() {
   upperLeft = $(".sq-left", upper);
   upperRight = $(".sq-right", upper);
 
-  codeEntity = CodeMirror.fromTextArea($(".sq-code", upperLeft)[0], {
+  codeEntity = CodeMirror.fromTextArea($(".sq-code textarea", upperLeft)[0], {
     lineWrapping: true,
     indentUnit: 4,
     readOnly: true,
     mode: "text/x-swift",
     theme: "quest",
   });
-  codeView = $("> *", upperLeft);
+  outputEntity = $(".sq-output code", upperRight);
 
   let lowerLeft = $(".sq-left", lower);
   lowerCenter = $(".sq-center", lower);
@@ -229,12 +228,16 @@ function show(pageIndex, action) {
 }
 
 function showCode(page, action, isTargetPage) {
+  let guideView = $(".sq-overlay", upperLeft);
+  guideView.text("");
   let before = codeEntity.getValue();
   let after;
   if (page == null) {
     after = "";
   } else if (page.hasClass("sq-guide")) {
-    after = before;
+    guideView.text(page.text());
+    codeEntity.setValue("");
+    return;
   } else {
     after = $("code", page).text();
   }
@@ -275,16 +278,25 @@ function showCode(page, action, isTargetPage) {
 }
 
 function showOutput(page, action, isTargetPage) {
-  $("> *", upperRight).detach();
+  let content;
+  let guideView = $(".sq-overlay", upperRight);
+  guideView.text("");
   if (page == null) {
+    content = "";
+  } else if (page.hasClass("sq-guide")) {
+    guideView.text(page.text());
+    outputEntity.text("");
     return;
+  } else {
+    content = $("code", page).text();
   }
   let showResult = () => {
-    $("> *", upperRight).detach();
-    upperRight.append(page);
+    $("> *", guideView).detach();
+    outputEntity.text(content);
   };
   if (isTargetPage && !page.hasClass("sq-guide") && action == "next") {
-    upperRight.append('<div class="sq-spinner"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i></div>');
+    $("> *", guideView).detach();
+    guideView.append('<div class="sq-spinner"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i></div>');
     setTimeout(() => {
       showResult();
     }, 500);
