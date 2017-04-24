@@ -9,11 +9,11 @@ title: "数字のprint"
 
 今、 HP が 153 とします。これを表示する方法を説明します。
 
-画面中のグレーのエリアはプログラムを書く場所です。
+画面中のグレーのエリア <code class="sq-code">&nbsp;&nbsp;</code> はプログラムを書く場所です。
 
 <pre class="sq-guide"><code><span>プログラムを書く場所</span></code></pre>
 
-黒いエリアはプログラムを実行した結果を表示する場所です。
+黒いエリア <code class="sq-output">&nbsp;&nbsp;</code> はプログラムを実行した結果を表示する場所です。
 
 <pre class="sq-guide"><code>実行結果を表示する場所</code></pre>
 
