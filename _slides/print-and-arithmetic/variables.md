@@ -15,12 +15,12 @@ var a = 2
 
 `var` は、新しい {% include terms/variable.md %} を作るためのキーワードです。
 
+数字や計算結果を表示するのと同じように、 `print` を使って {% include terms/variable.md %} の中に入っている値を表示できます。
+
 ```swift
 var a = 2
 print(a)
 ```
-
-のようにして `a` の中に入っている値を表示することができます。
 
 ```
 2
@@ -65,7 +65,9 @@ print(a)
 
 `=` を使って {% include terms/variable.md %} に値を入れることを **{% include terms/assignment.md %}** と言います。
 
-算数や数学の = は左右の値が等しいことを意味しますが、多くのプログラミング言語では `=` の右側の値を左側に {% include terms/assignment.md %} するという意味になります。
+算数や数学の = は左右の値が等しいことを意味します。
+
+しかし、多くのプログラミング言語では `=` の右側の値を左側に {% include terms/assignment.md %} するという意味になります。
 
 `a = 10` の行に `var` を書かなくて良いのは、 `a` という {% include terms/variable.md %} が `var a = 2 * 3` の行ですでに作られているからです。
 
