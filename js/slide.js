@@ -10,6 +10,7 @@ let subtitleView;
 
 let prevButton;
 let nextButton;
+let skipAnimation = null;
 
 class CursorPosition {
   constructor(line, character) {
@@ -104,30 +105,44 @@ function codeDiffAnimation(before, after) {
 }
 
 function playAnimation(animation, target, delay, interval, update, completion = null) {
+  let skipped = false;
+  let chainedSkip = null;
+  let skip = () => {
+    skipped = true;
+    if (chainedSkip != null) {
+      chainedSkip();
+      return;
+    }
+    playAnimation(animation, target, 0, 0, update, completion);
+  };
+
   if (delay > 0) {
     setTimeout(() => {
-      playAnimation(animation, target, 0, interval, update, completion);
+      if (skipped) { return; }
+      chainedSkip = playAnimation(animation, target, 0, interval, update, completion);
     }, delay);
-    return;
+    return skip;
   }
 
   if (animation.length == 0) {
     if (completion != null) {
       completion();
     }
-    return;
+    return skip;
   }
 
   update(target, animation[0]);
 
   let doPlayAnimation = () => {
-    playAnimation(animation.slice(1, animation.length), target, 0, interval, update, completion);
+    if (skipped) { return; }
+    chainedSkip = playAnimation(animation.slice(1, animation.length), target, 0, interval, update, completion);
   }
   if (interval == 0) {
     doPlayAnimation();
   } else {
     setTimeout(doPlayAnimation, interval);
   }
+  return skip;
 }
 
 function initializePage() {
@@ -176,10 +191,16 @@ function initializePage() {
 }
 
 function prev() {
+  if (skipAnimation != null) {
+    skipAnimation();
+  }
   show(--pageIndex, "prev");
 }
 
 function next() {
+  if (skipAnimation != null) {
+    skipAnimation();
+  }
   show(++pageIndex, "next");
 }
 
@@ -265,11 +286,8 @@ function showCode(page, action, isTargetPage) {
 
   if (isTargetPage && action == "next") {
     upperLeft.addClass("sq-highlighted");
-    prevButton.prop("disabled", true);
-    nextButton.prop("disabled", true);
-    playAnimation(animation, codeEntity, 800, 80, makeUpdate(true), () => {
-      prevButton.prop("disabled", false);
-      nextButton.prop("disabled", false);
+    skipAnimation = playAnimation(animation, codeEntity, 800, 80, makeUpdate(true), () => {
+      skipAnimation = null;
       upperLeft.removeClass("sq-highlighted");
     });
   } else {
@@ -297,8 +315,16 @@ function showOutput(page, action, isTargetPage) {
   if (isTargetPage && !page.hasClass("sq-guide") && action == "next") {
     $("> *", guideView).detach();
     guideView.append('<div class="sq-spinner"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i></div>');
-    setTimeout(() => {
+    let skipped = false;
+    let doSkipAnimation = () => {
+      if (skipped) { return; }
+      skipped = true;
+      skipAnimation = null;
       showResult();
+    };
+    skipAnimation = doSkipAnimation;
+    setTimeout(() => {
+      doSkipAnimation();
     }, 500);
   } else {
     showResult();
