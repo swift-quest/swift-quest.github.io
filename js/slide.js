@@ -12,6 +12,29 @@ let prevButton;
 let nextButton;
 let skipAnimation = null;
 
+class CodePage {
+  constructor(contents, isGuide) {
+    if (contents.length <= 0) {
+      throw "Illegal length of contents: " + contents.length;
+    }
+    this.contents = contents;
+    this.isGuide = isGuide;
+  }
+}
+
+class OutputPage {
+  constructor(content, isGuide) {
+    this.content = content;
+    this.isGuide = isGuide;
+  }
+}
+
+class SubtitlePage {
+  constructor(content) {
+    this.content = content;
+  }
+}
+
 class CursorPosition {
   constructor(line, character) {
     this.line = line;
@@ -27,7 +50,18 @@ class AnimationFrame {
   }
 }
 
-function codeDiffAnimation(before, after) {
+function codeDiffAnimation(snapshots) {
+  if (snapshots.length <= 0) { return []; }
+  if (snapshots.length == 1) { return [snapshots[0]]; }
+  if (snapshots.length > 2) {
+    let tail = snapshots.map((snapshot) => snapshot); // clone
+    let head = tail.shift();
+    return codeDiffAnimation([head, tail[0]]).concat(codeDiffAnimation(tail));
+  }
+
+  let before = snapshots[0];
+  let after = snapshots[1];
+
   let animation = [];
 
   let diff = JsDiff.diffChars(before, after);
@@ -155,7 +189,36 @@ function initializePage() {
   $("div:has(pre.sq-output)", content).addClass("sq-output");
   $("code.highlighter-rouge").addClass("sq-code");
 
-  pages = $("> *", content);
+  let jPages = $("> *", content);
+  pages = [];
+  let lastPage = null;
+  for (let i = 0; i < jPages.length; i++) {
+    let jPage = $(jPages[i]);
+    let page;
+    if (jPage.hasClass("sq-code")) {
+      let content = $("code", jPage).text();
+      if (lastPage instanceof CodePage && !lastPage.isGuide) {
+        lastPage.contents.push(content);
+        continue;
+      } else {
+        page = new CodePage(
+          [content],
+          jPage.hasClass("sq-guide")
+        );
+      }
+    } else if (jPage.hasClass("sq-output")) {
+      page = new OutputPage(
+        $("code", jPage).text(),
+        jPage.hasClass("sq-guide")
+      );
+    } else if (jPage.hasClass("sq-subtitle")) {
+      page = new SubtitlePage(jPage.html());
+    } else {
+      throw "Illegal page: " + jPage.html();
+    }
+    pages.push(page);
+    lastPage = page;
+  }
 
   let slide = $("#sq-slide");
 
@@ -225,12 +288,12 @@ function show(pageIndex, action) {
   let outputPage = null;
   let subtitlePage = null;
   for (let i = 0; i <= pageIndex; i++) {
-    let page = $(pages[i]);
-    if (page.hasClass("sq-code")) {
+    let page = pages[i];
+    if (page instanceof CodePage) {
       codePage = page;
-    } else if (page.hasClass("sq-output")) {
+    } else if (page instanceof OutputPage) {
       outputPage = page;
-    } else if (page.hasClass("sq-subtitle")) {
+    } else if (page instanceof SubtitlePage) {
       subtitlePage = page;
     }
   }
@@ -240,7 +303,7 @@ function show(pageIndex, action) {
     if (page == null) {
       return false;
     }
-    return page[0] == targetPage; // page は JQeury 型なので [0] が必要
+    return page == targetPage;
   };
 
   showCode(codePage, action, isTargetPage(codePage));
@@ -251,19 +314,21 @@ function show(pageIndex, action) {
 function showCode(page, action, isTargetPage) {
   let guideView = $(".sq-overlay", upperLeft);
   guideView.text("");
-  let before = codeEntity.getValue();
-  let after;
+  let snapshots = [];
+  snapshots.push(codeEntity.getValue());
   if (page == null) {
-    after = "";
-  } else if (page.hasClass("sq-guide")) {
-    guideView.text(page.text());
+    snapshots.push("");
+  } else if (page.isGuide) {
+    guideView.text(page.contents[0]);
     codeEntity.setValue("");
     return;
   } else {
-    after = $("code", page).text();
+    for (let snapshot of page.contents) {
+      snapshots.push(snapshot);
+    }
   }
 
-  let animation = codeDiffAnimation(before, after);
+  let animation = codeDiffAnimation(snapshots);
   let makeUpdate = (enablesScroll) => {
     return (target, frame) => {
       let cursorPosition = {
@@ -301,18 +366,19 @@ function showOutput(page, action, isTargetPage) {
   guideView.text("");
   if (page == null) {
     content = "";
-  } else if (page.hasClass("sq-guide")) {
-    guideView.text(page.text());
+  } else if (page.isGuide) {
+    guideView.text(page.content);
     outputEntity.text("");
     return;
   } else {
-    content = $("code", page).text();
+    content = page.content;
   }
   let showResult = () => {
     $("> *", guideView).detach();
     outputEntity.text(content);
   };
-  if (isTargetPage && !page.hasClass("sq-guide") && action == "next") {
+  if (isTargetPage && !page.isGuide && action == "next") {
+    outputEntity.text("");
     $("> *", guideView).detach();
     guideView.append('<div class="sq-spinner"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i></div>');
     let skipped = false;
@@ -332,11 +398,13 @@ function showOutput(page, action, isTargetPage) {
 }
 
 function showSubtitle(page, action, isTargetPage) {
-  $("> *", lowerCenter).detach();
+  let content;
   if (page == null) {
-    return;
+    content = "";
+  } else {
+    content = page.content;
   }
-  lowerCenter.append(page);
+  lowerCenter.html(`<p>${content}</p>`);
 }
 
 $(() => {
