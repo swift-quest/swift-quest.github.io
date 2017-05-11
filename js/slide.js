@@ -1,5 +1,7 @@
+const PAGE_KEY = "p";
+
 let pages;
-let pageIndex = 0;
+let pageIndex;
 let upperLeft;
 let upperRight;
 let lowerCenter;
@@ -250,6 +252,20 @@ function initializePage() {
     next();
   });
 
+  let pageName = getUrlParameters()[PAGE_KEY];
+  if (pageName) {
+    pageIndex = Math.floor(Number(pageName)) - 1;
+    if (isNaN(pageIndex)) {
+      pageIndex = 0;
+    } else if (pageIndex < 0) {
+      pageIndex = 0;
+    } else if (pageIndex >= pages.length) {
+      pageIndex = pages.length - 1;
+    }
+  } else {
+    pageIndex = 0;
+  }
+
   show(pageIndex);
 }
 
@@ -258,6 +274,7 @@ function prev() {
     skipAnimation();
   }
   show(--pageIndex, "prev");
+  updateUrl();
 }
 
 function next() {
@@ -265,6 +282,11 @@ function next() {
     skipAnimation();
   }
   show(++pageIndex, "next");
+  updateUrl();
+}
+
+function updateUrl() {
+  history.replaceState(null, '', location.pathname + "?" + PAGE_KEY + "=" + (pageIndex + 1));
 }
 
 function show(pageIndex, action) {
