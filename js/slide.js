@@ -52,13 +52,13 @@ class AnimationFrame {
   }
 }
 
-function codeDiffAnimation(snapshots) {
+function getDiffAnimation(snapshots) {
   if (snapshots.length <= 0) { return []; }
   if (snapshots.length == 1) { return [snapshots[0]]; }
   if (snapshots.length > 2) {
     let tail = snapshots.map((snapshot) => snapshot); // clone
     let head = tail.shift();
-    return codeDiffAnimation([head, tail[0]]).concat(codeDiffAnimation(tail));
+    return getDiffAnimation([head, tail[0]]).concat(getDiffAnimation(tail));
   }
 
   let before = snapshots[0];
@@ -350,7 +350,7 @@ function showCode(page, action, isTargetPage) {
     }
   }
 
-  let animation = codeDiffAnimation(snapshots);
+  let animation = getDiffAnimation(snapshots);
   let makeUpdate = (enablesScroll) => {
     return (target, frame) => {
       let cursorPosition = {
