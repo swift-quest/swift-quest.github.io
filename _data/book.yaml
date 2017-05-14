@@ -1,0 +1,35 @@
+title: "SWIFT QUEST"
+chapters:
+  - id: print-and-arithmetic
+    title: "printと計算"
+    sections:
+      - id: first-step
+        title: "はじめの一歩"
+      - id: basic-programming-terms
+        title: "プログラミングの基本用語"
+      - id: print-strings
+        title: "文字列のprint"
+  - id: variables-and-constants
+    title: "変数と定数"
+    sections:
+      - id: variables
+        title: "変数"
+      - id: self-assignment
+        title: "自分自身への代入"
+      - id: constants
+        title: "定数"
+  - id: branches
+    title: "条件分岐"
+    sections: []
+  - id: loops
+    title: "繰り返し"
+    sections: []
+  - id: arrays
+    title: "配列"
+    sections: []
+  - id: types
+    title: "型"
+    sections: []
+  - id: functions
+    title: "関数"
+    sections: []
