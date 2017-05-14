@@ -6,9 +6,7 @@ kramdown:
   syntax_highlighter: rouge
 
 collections:
-  items:
-    output: true
-  slides:
+  contents:
     output: true
 
 sass:
