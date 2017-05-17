@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "strictNullChecks": true,
+        "removeComments": true,
+        "target": "ES6"
+    },
+    "files": [
+        "battle.ts"
+    ]
+}

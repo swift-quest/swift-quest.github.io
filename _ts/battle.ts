@@ -2,19 +2,6 @@ interface Named {
 	name: string
 }
 
-interface Promise<T> {
-	then<U>(transform: (T) => U | Promise<U>): Promise<U>
-}
-function new_Promise<T>(executor: (resolve: (value: T|Promise<T>) => void, reject: (error: any) => void) => void): Promise<T> {
-	return new Promise(executor);
-}
-function Promise_resolve<T>(value: T): Promise<T> {
-	return Promise.resolve(value);
-}
-function Promise_race<T>(promises: Promise<T>[]): Promise<T> {
-	return Promise.race(promises);
-}
-
 function flatMap<T, U>(array: T[], transform: (t:T) => U[]): U[] {
 	let result: U[] = [];
 	for (let us of array.map((t) => transform(t))) {
@@ -24,7 +11,7 @@ function flatMap<T, U>(array: T[], transform: (t:T) => U[]): U[] {
 	}
 	return result;
 }
-function anyOf<T>(array: T[]): T {
+function anyOf<T>(array: T[]): T | null {
 	if (array.length == 0) { return null; }
 	return array[Math.floor(array.length * Math.random())];
 }
@@ -34,33 +21,33 @@ function apply<T>(thiz: T, action: (thiz: T) => void): T {
 }
 
 function delay(milliseconds: number, action: () => void): Promise<void> {
-	return new_Promise((resolve, reject) => {
+	return new Promise<void>((resolve, reject) => {
 		setTimeout(() => {
 			action();
-			resolve(null);
+			resolve();
 		}, milliseconds);
 	});
 }
 
-let container = document.getElementById("sq-container");
-let fullscreenEffect = document.getElementById("sq-fullscreen-effect");
-let statusBox = document.getElementById("sq-status-box");
-let monsters = document.getElementById("sq-monsters");
+let container = document.getElementById("sq-container") as HTMLElement;
+let fullscreenEffect = document.getElementById("sq-fullscreen-effect") as HTMLElement;
+let statusBox = document.getElementById("sq-status-box") as HTMLElement;
+let monsters = document.getElementById("sq-monsters") as HTMLElement;
 let enemyIndexMap = [1, 0, 2];
 function enemyElement(i: number) {
 	return (<HTMLElement>monsters.children[enemyIndexMap[i]]);
 }
-let audioBattle = document.getElementById("sq-audio-battle");
+let audioBattle = document.getElementById("sq-audio-battle") as HTMLAudioElement;
 let audioBattleStarted = false;
-let audioWin = document.getElementById("sq-audio-win");
+let audioWin = document.getElementById("sq-audio-win") as HTMLAudioElement;
 let audioWinStarted = false;
 
-let messageBox = document.getElementById("sq-message-box");
+let messageBox = document.getElementById("sq-message-box") as HTMLElement;
 class Message {
 	text: string;
-	action: () => Promise<void>;
-	actionBefore: () => Promise<void>;
-	constructor(text: string, action: () => Promise<void> = null, actionBefore: () => Promise<void> = null) {
+	action: (() => Promise<void>) | null;
+	actionBefore: (() => Promise<void>) | null;
+	constructor(text: string, action: (() => Promise<void>) | null = null, actionBefore: (() => Promise<void>) | null = null) {
 		this.text = text;
 		this.action = action;
 		this.actionBefore = actionBefore;
@@ -72,14 +59,14 @@ function showMessages(messages: Message[]): Promise<void> {
 			messageBox.removeChild(messageBox.children[messageBox.children.length - 1]);
 		}
 
-		if (messages.length == 0) { return Promise_resolve(null); }
-
-		let result: Promise<void> = Promise_resolve(null);
 		let message = messages.shift();
-		if (message.actionBefore != null) {
-			result = result.then((_x) => {
-				return message.actionBefore();
-			});
+    if (message === undefined) { return Promise.resolve(undefined); }
+    let nonnullMessage = message;
+    let result: Promise<void> = Promise.resolve(undefined);
+    let actionBefore = message.actionBefore
+		if (actionBefore != null) {
+      let nonnullActionBefore = actionBefore;
+			result = result.then((_x) => nonnullActionBefore());
 		}
 
 		let messageBody = document.createElement("div");
@@ -92,10 +79,10 @@ function showMessages(messages: Message[]): Promise<void> {
 			nextIndicator.className = "sq-next-indicator";
 			nextIndicator.innerHTML = '<img src="img/arrow-down.png" class="sq-blink" />';
 
-			return new_Promise((resolve, reject) => {
+			return new Promise((resolve, reject) => {
 				messageBox.onclick = () => {
-					if (message.action == null) { return resolve(null); }
-					return resolve(message.action());
+					if (nonnullMessage.action == null) { return resolve(undefined); }
+					return resolve(nonnullMessage.action());
 				};
 			});
 		}).then((value) => {
@@ -127,7 +114,7 @@ class Color {
 	}
 }
 
-let selections = document.getElementById("sq-selections");
+let selections = document.getElementById("sq-selections") as HTMLElement;
 function clearSelections() {
 	let children = selections.children;
 	while(children.length > 0) {
@@ -152,8 +139,8 @@ class SelectionItem<T> {
 }
 class SelectionResult<T> {
 	value: Promise<T>;
-	update: Promise<SelectionResult<T>>/*|null*/;
-	constructor(value: Promise<T>, update: Promise<SelectionResult<T>>/*|null*/ = null) {
+	update: Promise<SelectionResult<T>> | null;
+	constructor(value: Promise<T>, update: Promise<SelectionResult<T>> | null = null) {
 		this.value = value;
 		this.update = update;
 	}
@@ -167,15 +154,15 @@ class SelectionResult<T> {
 			return result.then_(transform);
 		});
 		let promises: Promise<U>[] = [transformed, updateTransformed];
-		return Promise_race(promises);
+		return Promise.race(promises);
 	}
 }
 function _select<T extends string|Named>(items: SelectionItem<T>[], updatable: boolean, arrowImages: HTMLElement[], buttons: HTMLElement[], numberOfStacks: number): SelectionResult<T> {
-	let resolve2: (x: SelectionResult<T> | Promise<SelectionResult<T>>) => void = null;
-	let update: Promise<SelectionResult<T>>/*|null*/ = new_Promise((_resolve2, _reject2) => {
+	let resolve2: ((x: SelectionResult<T> | Promise<SelectionResult<T>>) => void) | null = null;
+	let update: Promise<SelectionResult<T>> | null = new Promise((_resolve2, _reject2) => {
 		resolve2 = _resolve2;
 	});
-	let value = new_Promise((resolve, reject) => {
+	let value = new Promise((resolve, reject) => {
 			for (let iString in items) {
 				let i: number = Number(iString);
 				let item = items[i];
@@ -193,8 +180,11 @@ function _select<T extends string|Named>(items: SelectionItem<T>[], updatable: b
 
 					resolve(item.value);
 					let result2 = _select(items, updatable, arrowImages, buttons, numberOfStacks);
+          if (resolve2 === null) {
+            throw "Never reaches here.";
+          }
 					resolve2(result2);
-					button.onclick = null;
+					button.onclick = () => {};
 				};
 			}
 	});
@@ -202,7 +192,7 @@ function _select<T extends string|Named>(items: SelectionItem<T>[], updatable: b
 	return new SelectionResult(value, updatable ? update : null);
 }
 
-function select<T extends string|Named>(items: SelectionItem<T>[], title: string /*| null*/ = null, updatable: boolean = false): SelectionResult<T> {
+function select<T extends string|Named>(items: SelectionItem<T>[], title: string | null = null, updatable: boolean = false): SelectionResult<T> {
 	let resolved = false;
 	let selectionBox = document.createElement("div");
 	selectionBox.className = "sq-box sq-selection"
@@ -276,7 +266,7 @@ function attack(scene: Scene, target: Character, damage: number, noDamageMessage
 	if (damage > 0) {
 		messages.push(new Message(target.name.concat("に").concat(String(damage)).concat("のダメージ。"), () => {
 			updateStatusBox(sceneSnapshot);
-			return Promise_resolve(null);
+			return Promise.resolve(undefined);
 		}, () => {
 			let animation: Promise<void>;
 			if (target.isEnemy) {
@@ -294,7 +284,7 @@ function attack(scene: Scene, target: Character, damage: number, noDamageMessage
 					});
 				// }).then((_x) => {
 				// 	if (target.isAlive) {
-				// 		return Promise_resolve(null);
+				// 		return Promise.resolve(null);
 				// 	} else {
 				// 		return delay(300, () => {
 				// 			enemyElement(enemyIndex).style.visibility = "hidden";
@@ -330,7 +320,7 @@ function attack(scene: Scene, target: Character, damage: number, noDamageMessage
 						}
 					});
 				}
-				return null;
+				return undefined;
 			});
 		}));
 	} else {
@@ -410,7 +400,7 @@ class RestorationSpell extends Spell {
 		} else {
 			messageText = target.name.concat("のHPがかいふくした。");
 		}
-		return [new Message(messageText, () => { updateStatusBox(sceneSnapshot); return Promise_resolve(null); })];
+		return [new Message(messageText, () => { updateStatusBox(sceneSnapshot); return Promise.resolve(undefined); })];
 	}
 }
 
@@ -505,7 +495,7 @@ class SpellAction extends Action {
 			this.character.mp -= this.spell.mp;
 		}
 		let sceneSnapshot = scene.clone();
-		let messages = [new Message(this.character.name.concat("は").concat(this.spell.name).concat("のまほうをつかった。"), () => { updateStatusBox(sceneSnapshot); return Promise_resolve(null); }, () => {
+		let messages = [new Message(this.character.name.concat("は").concat(this.spell.name).concat("のまほうをつかった。"), () => { updateStatusBox(sceneSnapshot); return Promise.resolve(undefined); }, () => {
 			fullscreenEffect.style.backgroundColor = this.spell.color.css;
 			fullscreenEffect.style.visibility = "visible";
 			return delay(80, () => {
@@ -556,7 +546,7 @@ class SummonAction extends Action {
 		this.target.hp = this.target.maxHp;
 		let sceneSnapshot = scene.clone();
 		let messages = [
-			new Message(this.character.name.concat("はなかまをよんだ。"), () => { updateStatusBox(sceneSnapshot); return Promise_resolve(null); }),
+			new Message(this.character.name.concat("はなかまをよんだ。"), () => { updateStatusBox(sceneSnapshot); return Promise.resolve(undefined); }),
 			new Message(this.target.name.concat("があらわれた。"))
 		];
 		return messages;
@@ -572,7 +562,7 @@ class MultipleAction extends Action {
 	}
 
 	perform(scene: Scene): Message[] {
-		let messages = []
+		let messages: Message[] = []
 		for (let action of this.actions) {
 			for (let message of action.perform(scene)) {
 				messages.push(message);
@@ -646,15 +636,18 @@ class PlayerCharacter extends Character {
 							removeSelections(2);
 							return thiz.decideAction(scene);
 						}
-						return Promise_resolve(new AttackAction(this, target));
+						return Promise.resolve(new AttackAction(this, target));
 					});
 				}
 				case "まほう": {
 					return thiz.decideSpellAction(scene);
 				}
 				case "ぼうぎょ": {
-					return Promise_resolve(new DefenseAction(this));
+					return Promise.resolve(new DefenseAction(this));
 				}
+        default: {
+          throw "Never reaches here.";
+        }
 			}
 		}).then((action) => {
 			clearSelections();
@@ -671,14 +664,14 @@ class PlayerCharacter extends Character {
 			}
 
 			if (spell.whole) {
-				return Promise_resolve(spell.targets(scene)).then((targets) => new SpellAction(this, spell, targets));
+				return Promise.resolve(spell.targets(scene)).then((targets) => new SpellAction(this, spell, targets));
 			} else {
 				return select(spell.targets(scene).map((member) => new SelectionItem(member)), null, true).then_((target: Character/*|null*/) => {
 					if (target == null) {
 						removeSelections(2);
 						return thiz.decideSpellAction(scene);
 					}
-					return Promise_resolve(new SpellAction(this, spell, [target]));
+					return Promise.resolve(new SpellAction(this, spell, [target]));
 				});
 			}
 		});
@@ -725,7 +718,7 @@ class Party {
 		return this.members.filter((member) => !member.isAlive);
 	}
 
-	get anyMemberAlive(): Character {
+	get anyMemberAlive(): Character | null {
 		return anyOf(this.membersAlive);
 	}
 
@@ -760,8 +753,8 @@ class Scene {
 	decideTurnActions(): Promise<Action[]> {
 		let scene = this;
 		function decideActions(characters: Character[]): Promise<Action[]> {
-			if (characters.length == 0) { return Promise_resolve([]); }
 			let character = characters.shift();
+      if (character === undefined) { return Promise.resolve([]); }
 			return character.decideAction(character.isEnemy ? scene.reversed : scene).then((action) => {
 				return decideActions(characters).then((actions) => {
 					actions.unshift(action);
@@ -777,12 +770,12 @@ class Scene {
 		return this.decideTurnActions().then((actions: Action[]) => {
 			let sortedActions = actions.concat().sort((a, b) => b.character.agility - a.character.agility);
 
-			function _performTurn(actions: Action[]): Promise<Party> {
-				if (!scene.friend.isAlive) { return Promise_resolve(scene.enemy); }
-				if (!scene.enemy.isAlive) { return Promise_resolve(scene.friend); }
-				if (actions.length == 0) { return Promise_resolve(null); }
+			function _performTurn(actions: Action[]): Promise<Party | null> {
+				if (!scene.friend.isAlive) { return Promise.resolve(scene.enemy); }
+				if (!scene.enemy.isAlive) { return Promise.resolve(scene.friend); }
 
 				let action = actions.shift();
+        if (action === undefined) { return Promise.resolve(null); }
 				if (!action.character.isAlive) {
 					return _performTurn(actions);
 				}
@@ -803,7 +796,7 @@ class Scene {
 	performBattle(): Promise<Party> {
 		let scene = this
 		return this.performTurn().then((winner) => {
-			if (winner != null) { return Promise_resolve(winner); }
+			if (winner != null) { return Promise.resolve(winner); }
 			return scene.performBattle();
 		});
 	}
@@ -845,30 +838,30 @@ function startBattle(): Promise<void> {
 		new Party([
 			new NonPlayerCharacter("まおう", 999, 99, 185, 58, 61, [Spells.inferno, Spells.blizzard, Spells.tempest], true, (character, scene) => {
 				if (scene.turn == 0) {
-					return Promise_resolve(new SummonAction(character, scene.friend.members[1]));
+					return Promise.resolve(new SummonAction(character, scene.friend.members[1]));
 				}
 				if (scene.turn == 1) {
-					return Promise_resolve(new SummonAction(character, scene.friend.members[2]));
+					return Promise.resolve(new SummonAction(character, scene.friend.members[2]));
 				}
 
 				let spellsAvailable = character.spells.filter((spell) => character.mp >= spell.mp);
-				if (spellsAvailable.length > 0 && Math.random() < 0.8) {
-					let spell = anyOf(spellsAvailable);
+        let spell = anyOf(spellsAvailable);
+				if (spell && Math.random() < 0.8) {
 					let targets: Character[];
 					if (spell.whole) {
 						targets = spell.targets(scene);
 					} else {
-						targets = [anyOf(spell.targets(scene))];
+						targets = [anyOf(spell.targets(scene)) as Character];
 					}
-					return Promise_resolve(new SpellAction(character, spell, targets));
+					return Promise.resolve(new SpellAction(character, spell, targets));
 				} else {
-					return Promise_resolve(new AttackAction(character, scene.enemy.anyMemberAlive));
+					return Promise.resolve(new AttackAction(character, scene.enemy.anyMemberAlive as Character));
 				}
 			}),
 			apply(new NonPlayerCharacter("あんこくきし", 250, 0, 181, 93, 73, [], true, (character, scene) => {
-				return Promise_resolve(new MultipleAction(character, [
-					new AttackAction(character, scene.enemy.anyMemberAlive),
-					new AttackAction(character, scene.enemy.anyMemberAlive),
+				return Promise.resolve(new MultipleAction(character, [
+					new AttackAction(character, scene.enemy.anyMemberAlive as Character),
+					new AttackAction(character, scene.enemy.anyMemberAlive as Character),
 				]));
 			}), (thiz) => { thiz.hp = 0; }),
 			apply(new NonPlayerCharacter("デモンプリースト", 180, 99, 121, 55, 59, [Spells.healing, Spells.resurrection, Spells.magicShield], true, (character, scene) => {
@@ -879,7 +872,7 @@ function startBattle(): Promise<void> {
 						let targets = spell.targets(scene);
 						let target = scene.friend.members[0];
 						if (targets.indexOf(target) >= 0) {
-							return Promise_resolve(new SpellAction(character, spell, [target]));
+							return Promise.resolve(new SpellAction(character, spell, [target]));
 						}
 					}
 				}
@@ -889,7 +882,7 @@ function startBattle(): Promise<void> {
 						let targets = spell.targets(scene);
 						if (targets.length > 0) {
 							let target = targets.sort((a, b) => { return b.maxHp - a.maxHp; })[0];
-							return Promise_resolve(new SpellAction(character, spell, [target]));
+							return Promise.resolve(new SpellAction(character, spell, [target]));
 						}
 					}
 				}
@@ -899,12 +892,12 @@ function startBattle(): Promise<void> {
 						let targets = spell.targets(scene);
 						if (targets.length > 0) {
 							let target = targets.sort((a, b) => { return b.maxHp - a.maxHp; })[0];
-							return Promise_resolve(new SpellAction(character, spell, [target]));
+							return Promise.resolve(new SpellAction(character, spell, [target]));
 						}
 					}
 				}
 
-				return Promise_resolve(new AttackAction(character, scene.enemy.anyMemberAlive));
+				return Promise.resolve(new AttackAction(character, scene.enemy.anyMemberAlive as Character));
 			}), (thiz) => { thiz.hp = 0; }),
 		])
 	);
@@ -915,7 +908,7 @@ function startBattle(): Promise<void> {
 	}).then((winner) => {
 		if (winner == scene.friend) {
 			location.href = "@next";
-			return Promise_resolve(null);
+			return Promise.resolve(undefined);
 		} else {
 			return select([new SelectionItem("やりなおす"), new SelectionItem("つぎへすすむ")]).then_((item) => {
 				if (item == "やりなおす") {
@@ -924,7 +917,7 @@ function startBattle(): Promise<void> {
 				}
 
 				location.href = "@next";
-				return Promise_resolve(null);
+				return Promise.resolve(null);
 			});
 		}
 	});
