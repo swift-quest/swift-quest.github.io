@@ -1,0 +1,54 @@
+---
+---
+
+@import "color";
+
+@font-face {
+  font-family: 'Tenderness';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Tenderness'), url(/font/tenderness.woff2) format('woff2');
+}
+
+body {
+  background-color: $dark-color;
+}
+
+section {
+  background-color: white;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  text-transform: none;
+}
+
+#mainNav {
+  a.navbar-brand {
+    font-family: "Tenderness";
+    font-size: 2.4em;
+  }
+
+  &.affix {
+    a.navbar-brand {
+      font-size: 2.0em;
+    }
+  }
+}
+
+.navbar-custom {
+  background-color: $dark-color;
+}
+
+footer {
+  background-color: $dark-color;
+  color: white;
+}
+
+.text-muted a {
+  color: $muted-color;
+  text-decoration: underline;
+
+  &:hover {
+    color: $primary;
+  }
+}

@@ -1,4 +1,11 @@
 title: "SWIFT QUEST"
+author:
+  name: "Yuta Koshizawa"
+  id: koher
+  portrait: "https://avatars2.githubusercontent.com/u/217100?v=3&s=460"
+  email: "koher@koherent.org"
+  twitter: koher
+  github: koher
 chapters:
   - id: print-and-arithmetic
     title: "printと計算"
@@ -20,7 +27,10 @@ chapters:
         title: "定数"
   - id: branches
     title: "条件分岐"
-    sections: []
+    sections:
+      - title: "if文"
+      - title: "else節"
+      - title: "else if"
   - id: loops
     title: "繰り返し"
     sections: []
@@ -32,4 +42,37 @@ chapters:
     sections: []
   - id: functions
     title: "関数"
+    sections: []
+  - id: structures
+    title: "構造体"
+    sections: []
+  - id: enumerations
+    title: "列挙型"
+    sections: []
+  - id: dictionaries
+    title: "辞書"
+    sections: []
+  - id: generics
+    title: "ジェネリクス"
+    sections: []
+  - id: protocols
+    title: "プロトコル"
+    sections: []
+  - id: classes-and-reference-types
+    title: "クラスと参照型"
+    sections: []
+  - id: higher-order-functions
+    title: "高階関数とクロージャ"
+    sections: []
+  - id: optionals
+    title: "Optional型"
+    sections: []
+  - id: monads
+    title: "モナド"
+    sections: []
+  - id: error-handling
+    title: "エラー処理"
+    sections: []
+  - id: algorithms-and-data-structures
+    title: "アルゴリズムとデータ構造"
     sections: []

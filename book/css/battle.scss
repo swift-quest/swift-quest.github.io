@@ -1,9 +1,14 @@
+---
+---
+
+@import "color";
+
 html {
   width: 100%;
   height: 100%;
 }
 body {
-  background-color: #000000;
+  background-color: $dark-color;
   margin: 0;
   height: 100%;
   font-family: sans-serif;
@@ -45,7 +50,6 @@ body {
 
 .sq-box {
   color: #ffffff;
-  background-color: rgba(0, 0, 0, 0.7);
   border: solid 2px #ffffff;
   border-radius: 4px;
 }
@@ -159,7 +163,7 @@ body {
 
 .sq-selection button {
   color: #ffffff;
-  border: none 0 #000000;
+  border: none 0 $dark-color;
   background-color: transparent;
 }
 

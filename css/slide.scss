@@ -5,10 +5,8 @@
 @import "color";
 
 $code-highlighted-background-color: #777777;
-$output-color: #ffffff;
-$output-background-color: #000000;
-$subtitle-color: #000000;
-$subtitle-background-color: #eeeeee;
+$subtitle-color: $article-color;
+$subtitle-background-color: $article-background-color;
 $button-color: $primary;
 $button-size: 50px;
 

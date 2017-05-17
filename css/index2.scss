@@ -1,0 +1,145 @@
+---
+---
+
+@import "mixin";
+@import "color";
+
+#battle {
+  background-color: $dark-color;
+  background-image: none;
+
+  .sq-headline {
+    margin: 0 0 30px 0;
+    font-size: large;
+  }
+
+  .sq-battle-canvas {
+    padding-bottom: 95%;
+  }
+  @media(min-width: 768px) {
+    .sq-battle-canvas {
+      padding-bottom: 89%;
+    }
+  }
+  @media(min-width: 992px) {
+    .sq-battle-canvas {
+      padding-bottom: 68%;
+    }
+  }
+  @media(min-width: 1200px) {
+    .sq-battle-canvas {
+      padding-bottom: 56.25%;
+    }
+  }
+
+  @media(min-width: 768px) {
+    .intro-text {
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
+  }
+}
+
+#features {
+  .sq-heading {
+    margin: 15px 0;
+    text-transform: none;
+  }
+}
+
+#introduction {
+  .timeline {
+    margin-bottom: 0;
+    .timeline-image {
+      @include flex();
+      @include justify-content(center);
+      @include align-items(center);
+
+      i {
+        font-size: 40px;
+      }
+      @media(min-width: 768px) {
+        i {
+          font-size: 50px;
+        }
+      }
+      @media(min-width: 992px) {
+        i {
+          font-size: 75px;
+        }
+      }
+      @media(min-width: 1200px) {
+        i {
+          font-size: 85px;
+        }
+      }
+    }
+    li:last-child {
+      min-height: 0;
+      .sq-button {
+        text-align: center;
+      }
+    }
+  }
+}
+
+#table-of-contents {
+    .sq-item {
+      margin: 0 0 15px;
+      right: 0;
+      .sq-box {
+        padding: 25px;
+        background-color: white;
+        height: 100%;
+        .sq-caption {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+            h4 {
+                text-transform: none;
+                margin: 0;
+            }
+        }
+        .sq-contents {
+          max-width: 400px;
+          margin: 25px auto 0 auto;
+          text-align: center;
+          ul {
+            padding-left: 0;
+            li {
+              list-style-type: none;
+              padding-top: 4px;
+              padding-bottom: 4px;
+            }
+          }
+        }
+      }
+    }
+    * {
+        z-index: 2;
+    }
+}
+
+.team-member {
+  img {
+    width: 239px;
+    height: 239px;
+    border-color: #f1f1f1;
+  }
+}
+
+@media(min-width:767px) {
+    #portfolio {
+        .portfolio-item {
+            margin: 0 0 30px;
+        }
+    }
+}
+
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  flex-wrap: wrap;
+}
