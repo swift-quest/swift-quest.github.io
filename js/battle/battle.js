@@ -26,7 +26,7 @@ function delay(milliseconds, action) {
     });
 }
 let container = document.getElementById("sq-container");
-let fullscreenEffect = document.getElementById("sq-fullscreen-effect");
+let fullscreenEffect = (document.getElementById("sq-fullscreen-effect") || parent.document.getElementById("sq-fullscreen-effect"));
 let statusBox = document.getElementById("sq-status-box");
 let monsters = document.getElementById("sq-monsters");
 let enemyIndexMap = [1, 0, 2];

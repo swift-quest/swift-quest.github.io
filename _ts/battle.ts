@@ -30,7 +30,7 @@ function delay(milliseconds: number, action: () => void): Promise<void> {
 }
 
 let container = document.getElementById("sq-container") as HTMLElement;
-let fullscreenEffect = document.getElementById("sq-fullscreen-effect") as HTMLElement;
+let fullscreenEffect = (document.getElementById("sq-fullscreen-effect") || parent.document.getElementById("sq-fullscreen-effect")) as HTMLElement;
 let statusBox = document.getElementById("sq-status-box") as HTMLElement;
 let monsters = document.getElementById("sq-monsters") as HTMLElement;
 let enemyIndexMap = [1, 0, 2];
