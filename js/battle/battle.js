@@ -1,3 +1,5 @@
+let isBattleStandalone = false;
+let winCount = 0;
 function flatMap(array, transform) {
     let result = [];
     for (let us of array.map((t) => transform(t))) {
@@ -704,10 +706,10 @@ function startBattle() {
         new PlayerCharacter("まほうつかい", 77, 58, 60, 57, 48, [Spells.fireball, Spells.inferno, Spells.blizzard, Spells.tempest], false),
     ]), new Party([
         new NonPlayerCharacter("まおう", 999, 99, 185, 58, 61, [Spells.inferno, Spells.blizzard, Spells.tempest], true, (character, scene) => {
-            if (scene.turn == 0) {
+            if (scene.turn == 0 && !scene.friend.members[1].isAlive) {
                 return Promise.resolve(new SummonAction(character, scene.friend.members[1]));
             }
-            if (scene.turn == 1) {
+            if (scene.turn == 1 && !scene.friend.members[2].isAlive) {
                 return Promise.resolve(new SummonAction(character, scene.friend.members[2]));
             }
             let spellsAvailable = character.spells.filter((spell) => character.mp >= spell.mp);
@@ -731,7 +733,15 @@ function startBattle() {
                 new AttackAction(character, scene.enemy.anyMemberAlive),
                 new AttackAction(character, scene.enemy.anyMemberAlive),
             ]));
-        }), (thiz) => { thiz.hp = 0; }),
+        }), (thiz) => {
+            switch (winCount) {
+                case 0:
+                    thiz.hp = 0;
+                    break;
+                default:
+                    break;
+            }
+        }),
         apply(new NonPlayerCharacter("デモンプリースト", 180, 99, 121, 55, 59, [Spells.healing, Spells.resurrection, Spells.magicShield], true, (character, scene) => {
             let spellsAvailable = character.spells.filter((spell) => character.mp >= spell.mp);
             if (Math.random() < 0.5) {
@@ -765,18 +775,43 @@ function startBattle() {
                 }
             }
             return Promise.resolve(new AttackAction(character, scene.enemy.anyMemberAlive));
-        }), (thiz) => { thiz.hp = 0; }),
+        }), (thiz) => {
+            switch (winCount) {
+                case 0:
+                    thiz.hp = 0;
+                    break;
+                default:
+                    break;
+            }
+        }),
     ]));
     updateStatusBox(scene);
     return showMessages([new Message(scene.enemy.members[0].name.concat("があらわれた。"))]).then((value) => {
         return scene.performBattle();
     }).then((winner) => {
         if (winner == scene.friend) {
-            location.href = "@next";
-            return Promise.resolve(undefined);
+            winCount++;
+            if (isBattleStandalone) {
+                return select([new SelectionItem("もういちどたたかう")]).then_((item) => {
+                    clearSelections();
+                    return startBattle();
+                });
+            }
+            else {
+                location.href = "@next";
+                return Promise.resolve(undefined);
+            }
         }
         else {
-            return select([new SelectionItem("やりなおす"), new SelectionItem("つぎへすすむ")]).then_((item) => {
+            winCount = 0;
+            let items;
+            if (isBattleStandalone) {
+                items = [new SelectionItem("やりなおす")];
+            }
+            else {
+                items = [new SelectionItem("やりなおす"), new SelectionItem("つぎへすすむ")];
+            }
+            return select(items).then_((item) => {
                 if (item == "やりなおす") {
                     clearSelections();
                     return startBattle();

@@ -1,3 +1,6 @@
+let isBattleStandalone = false;
+let winCount = 0;
+
 interface Named {
 	name: string
 }
@@ -837,10 +840,10 @@ function startBattle(): Promise<void> {
 		]),
 		new Party([
 			new NonPlayerCharacter("まおう", 999, 99, 185, 58, 61, [Spells.inferno, Spells.blizzard, Spells.tempest], true, (character, scene) => {
-				if (scene.turn == 0) {
+				if (scene.turn == 0 && !scene.friend.members[1].isAlive) {
 					return Promise.resolve(new SummonAction(character, scene.friend.members[1]));
 				}
-				if (scene.turn == 1) {
+				if (scene.turn == 1 && !scene.friend.members[2].isAlive) {
 					return Promise.resolve(new SummonAction(character, scene.friend.members[2]));
 				}
 
@@ -863,7 +866,15 @@ function startBattle(): Promise<void> {
 					new AttackAction(character, scene.enemy.anyMemberAlive as Character),
 					new AttackAction(character, scene.enemy.anyMemberAlive as Character),
 				]));
-			}), (thiz) => { thiz.hp = 0; }),
+			}), (thiz) => {
+        switch (winCount) {
+          case 0:
+          thiz.hp = 0;
+          break;
+          default:
+          break;
+        }
+      }),
 			apply(new NonPlayerCharacter("デモンプリースト", 180, 99, 121, 55, 59, [Spells.healing, Spells.resurrection, Spells.magicShield], true, (character, scene) => {
 				let spellsAvailable = character.spells.filter((spell) => character.mp >= spell.mp);
 				if (Math.random() < 0.5) {
@@ -898,7 +909,15 @@ function startBattle(): Promise<void> {
 				}
 
 				return Promise.resolve(new AttackAction(character, scene.enemy.anyMemberAlive as Character));
-			}), (thiz) => { thiz.hp = 0; }),
+			}), (thiz) => {
+        switch (winCount) {
+          case 0:
+          thiz.hp = 0;
+          break;
+          default:
+          break;
+        }
+      }),
 		])
 	);
 
@@ -907,10 +926,26 @@ function startBattle(): Promise<void> {
 		return scene.performBattle();
 	}).then((winner) => {
 		if (winner == scene.friend) {
-			location.href = "@next";
-			return Promise.resolve(undefined);
+      winCount++;
+      if (isBattleStandalone) {
+        return select([new SelectionItem("もういちどたたかう")]).then_((item) => {
+          clearSelections();
+          return startBattle();
+  			});
+      } else {
+        location.href = "@next";
+  			return Promise.resolve(undefined);
+      }
 		} else {
-			return select([new SelectionItem("やりなおす"), new SelectionItem("つぎへすすむ")]).then_((item) => {
+      winCount = 0;
+      let items: SelectionItem<string>[];
+      if (isBattleStandalone) {
+        items = [new SelectionItem("やりなおす")];
+      } else {
+        items = [new SelectionItem("やりなおす"), new SelectionItem("つぎへすすむ")];
+      }
+
+			return select(items).then_((item) => {
 				if (item == "やりなおす") {
 					clearSelections();
 					return startBattle();
