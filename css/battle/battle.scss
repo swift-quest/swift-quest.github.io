@@ -418,3 +418,7 @@ body {
     margin-left: -140px;
   }
 }
+
+button:focus {
+  outline: none;
+}

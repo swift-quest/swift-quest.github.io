@@ -68,7 +68,7 @@ function showMessages(messages) {
             let nextIndicator = document.createElement("div");
             messageBox.appendChild(nextIndicator);
             nextIndicator.className = "sq-next-indicator";
-            nextIndicator.innerHTML = '<img src="img/arrow-down.png" class="sq-blink" />';
+            nextIndicator.innerHTML = '<img src="/img/battle/arrow-down.png" class="sq-blink" />';
             return new Promise((resolve, reject) => {
                 messageBox.onclick = () => {
                     if (nonnullMessage.action == null) {
@@ -195,7 +195,7 @@ function select(items, title = null, updatable = false) {
         let arrowImage = document.createElement("img");
         arrow.appendChild(arrowImage);
         arrowImages.push(arrowImage);
-        arrowImage.src = "img/arrow-right.png";
+        arrowImage.src = "/img/battle/arrow-right.png";
         if (!item.disabled && first) {
             arrowImage.className = "sq-blink";
             first = false;
