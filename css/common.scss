@@ -26,11 +26,49 @@ h1,h2,h3,h4,h5,h6 {
   a.navbar-brand {
     font-family: "Tenderness";
     font-size: 2.4em;
+
+    padding-top: 0;
+    padding-bottom: 0;
+
+    img {
+      height: 50px;
+    }
+
+    @media(min-width:768px) {
+      img {
+        margin-top: -25px;
+        margin-bottom: -25px;
+        height: 100px;
+        -webkit-transition-property: height, margin-top, margin-bottom;
+        -moz-transition-property: height, margin-top, margin-bottom;
+        transition-property: height, margin-top, margin-bottom;
+        -webkit-transition-duration: 0.3s;
+        -moz-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+      }
+    }
   }
 
   &.affix {
     a.navbar-brand {
       font-size: 2.0em;
+
+      padding-top: 0;
+      padding-bottom: 0;
+
+      @media(min-width:768px) {
+        img {
+          margin-top: -10px;
+          margin-bottom: -10px;
+          height: 70px;
+          -webkit-transition-property: height, margin-top, margin-bottom;
+          -moz-transition-property: height, margin-top, margin-bottom;
+          transition-property: height, margin-top, margin-bottom;
+          -webkit-transition-duration: 0.3s;
+          -moz-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+        }
+      }
     }
   }
 }
