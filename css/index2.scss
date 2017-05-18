@@ -93,6 +93,10 @@
       min-height: 0;
       .sq-button {
         text-align: center;
+
+        a:hover {
+          text-decoration: none;
+        }
       }
     }
   }
