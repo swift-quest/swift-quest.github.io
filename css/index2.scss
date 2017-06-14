@@ -69,7 +69,6 @@
       h4 {
         line-height: 1.4em;
         font-family: sans-serif;
-        white-space: nowrap;
       }
     }
     .timeline-image {
@@ -100,6 +99,10 @@
       min-height: 0;
       .sq-button {
         text-align: center;
+
+        a {
+          white-space: nowrap;
+        }
 
         a:hover {
           text-decoration: none;
