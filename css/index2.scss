@@ -65,6 +65,13 @@
 #introduction {
   .timeline {
     margin-bottom: 0;
+    .timeline-heading {
+      h4 {
+        line-height: 1.4em;
+        font-family: sans-serif;
+        white-space: nowrap;
+      }
+    }
     .timeline-image {
       @include flex();
       @include justify-content(center);
