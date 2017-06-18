@@ -699,6 +699,8 @@ function updateStatusBox(scene) {
     }
 }
 function startBattle() {
+    let darkKnightSummoned = false;
+    let demonPriestSummoned = false;
     const scene = new Scene(new Party([
         new PlayerCharacter("ゆうしゃ", 153, 25, 162, 97, 72, [Spells.healing, Spells.resurrection, Spells.thunderbolt], false),
         new PlayerCharacter("せんし", 198, 0, 178, 111, 63, [], false),
@@ -706,11 +708,33 @@ function startBattle() {
         new PlayerCharacter("まほうつかい", 77, 58, 60, 57, 48, [Spells.fireball, Spells.inferno, Spells.blizzard, Spells.tempest], false),
     ]), new Party([
         new NonPlayerCharacter("まおう", 999, 99, 185, 58, 61, [Spells.inferno, Spells.blizzard, Spells.tempest], true, (character, scene) => {
-            if (scene.turn == 0 && !scene.friend.members[1].isAlive) {
-                return Promise.resolve(new SummonAction(character, scene.friend.members[1]));
+            if (!scene.friend.members[1].isAlive && !scene.friend.members[2].isAlive) {
+                let summons = false;
+                if (darkKnightSummoned) {
+                    if (demonPriestSummoned) {
+                        summons = Math.random() < 0.1;
+                    }
+                }
+                else {
+                    summons = Math.random() < 0.3;
+                }
+                if (summons) {
+                    darkKnightSummoned = true;
+                    return Promise.resolve(new SummonAction(character, scene.friend.members[1]));
+                }
             }
-            if (scene.turn == 1 && !scene.friend.members[2].isAlive) {
-                return Promise.resolve(new SummonAction(character, scene.friend.members[2]));
+            if (!scene.friend.members[2].isAlive && darkKnightSummoned) {
+                let summons = false;
+                if (demonPriestSummoned) {
+                    summons = Math.random() < 0.1;
+                }
+                else {
+                    summons = Math.random() < 0.3;
+                }
+                if (summons) {
+                    demonPriestSummoned = true;
+                    return Promise.resolve(new SummonAction(character, scene.friend.members[2]));
+                }
             }
             let spellsAvailable = character.spells.filter((spell) => character.mp >= spell.mp);
             let spell = anyOf(spellsAvailable);
