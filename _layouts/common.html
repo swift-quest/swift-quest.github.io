@@ -96,5 +96,8 @@
         $('[data-toggle="popover"]').popover({html: true})
       });
     </script>
+    {% for js in page.js %}
+    <script src="/js/{{ js }}.js"></script>
+    {% endfor %}
   </body>
 </html>
