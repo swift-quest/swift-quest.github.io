@@ -2,6 +2,10 @@
 ---
 /* Loosely based on the Midnight Textmate theme */
 
+$keyword-color: #ff9988;
+$value-color: #ffcc88;
+$string-color: #ffeebb;
+
 @import "color";
 
 .cm-s-quest.CodeMirror { background: $code-background-color; color: $code-color; }
@@ -15,10 +19,10 @@
 .cm-s-quest .CodeMirror-cursor { border-left: 1px solid white; }
 
 .cm-s-quest span.cm-comment { color: #cccccc; }
-.cm-s-quest span.cm-atom { color: #11ffee; }
-.cm-s-quest span.cm-number, .cm-s-quest span.cm-attribute { color: #11ffee; }
-.cm-s-quest span.cm-keyword { color: #22ddff; }
-.cm-s-quest span.cm-string { color: #bbbbff; }
+.cm-s-quest span.cm-atom { color: $value-color; }
+.cm-s-quest span.cm-number, .cm-s-quest span.cm-attribute { color: $value-color; }
+.cm-s-quest span.cm-keyword { color: $keyword-color; }
+.cm-s-quest span.cm-string { color: $string-color; }
 .cm-s-quest span.cm-meta { color: #7678e2; }
 .cm-s-quest span.cm-variable { color: white; }
 .cm-s-quest span.cm-variable-2, .cm-s-quest span.cm-tag { color: white; }
