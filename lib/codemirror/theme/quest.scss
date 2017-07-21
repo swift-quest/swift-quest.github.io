@@ -14,13 +14,14 @@
 .cm-s-quest .CodeMirror-linenumber { color: $code-color; }
 .cm-s-quest .CodeMirror-cursor { border-left: 1px solid white; }
 
-.cm-s-quest span.cm-comment { color: #428BDD; }
-.cm-s-quest span.cm-atom { color: #845dc4; }
-.cm-s-quest span.cm-number, .cm-s-quest span.cm-attribute { color: #ffd500; }
-.cm-s-quest span.cm-keyword { color: #599eff; }
-.cm-s-quest span.cm-string { color: #1DC116; }
+.cm-s-quest span.cm-comment { color: #cccccc; }
+.cm-s-quest span.cm-atom { color: #11ffee; }
+.cm-s-quest span.cm-number, .cm-s-quest span.cm-attribute { color: #11ffee; }
+.cm-s-quest span.cm-keyword { color: #22ddff; }
+.cm-s-quest span.cm-string { color: #bbbbff; }
 .cm-s-quest span.cm-meta { color: #7678e2; }
-.cm-s-quest span.cm-variable-2, .cm-s-quest span.cm-tag { color: #99b2ff; }
+.cm-s-quest span.cm-variable { color: white; }
+.cm-s-quest span.cm-variable-2, .cm-s-quest span.cm-tag { color: white; }
 .cm-s-quest span.cm-variable-3, .cm-s-quest span.cm-def { color: white; }
 .cm-s-quest span.cm-bracket { color: #8da6ce; }
 .cm-s-quest span.cm-builtin, .cm-s-quest span.cm-special { color: #ff9e59; }
