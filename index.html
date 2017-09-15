@@ -1,119 +1,262 @@
 ---
+layout: common
+css:
+  - index2
 ---
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>SWIFT QUEST</title>
-    <link rel="icon" type="image/png" href="img/icon.png" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="font/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/index.css" type="text/css">
-  </head>
-  <body>
-    <header class="container">
-      <div id="sq-logo" >
-        <img src="img/logo.png" alt="SWIFT QUEST" />
-      </div>
-      <div id="sq-headline">
-        <p><ruby>SWIFT<rt>スウィフト</rt></ruby> <ruby>QUEST<rt>クエスト</rt></ruby> は、 RPG を <strong>作りながら</strong> 楽しくプログラミングを身につけるための <ruby>Playground<rt>プレイグラウンド</rt></ruby> <ruby>Book<rt>ブック</rt></ruby> です。</p>
-      </div>
-    </header>
-    <section id="sq-screenshots" class="container">
-      <div class="row">
-        <div class="sq-screenshot col-xs-12 col-sm-6 col-md-4">
-          <img src="img/screenshot-1.png" alt="" />
-        </div>
-        <div class="sq-screenshot col-xs-12 col-sm-6 col-md-4">
-          <img src="img/screenshot-2.png" alt="" />
-        </div>
-        <div class="sq-screenshot col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-0">
-          <img src="img/screenshot-3.png" alt="" />
-        </div>
-      </div>
-    </section>
-    <section id="sq-installation" class="container">
-      <h2>始め方</h2>
-      <hr />
-      <p><em>※ <ruby>現在<rt>げんざい</rt></ruby>、第 3 章までのプレビュー<ruby>版<rt>ばん</rt></ruby>を公開しています。<ruby>完成版<rt>かんせいばん</rt>は近日公開予定です。</em></p>
-      <p>SWIFT QUEST は <strong><a href="http://www.apple.com/swift/playgrounds/">Swift Playgrounds アプリ</a>またはブラウザ上</strong> でご<ruby>利用<rt>りよう</rt></ruby>いただけます。 Swift Playgrounds アプリの実行には iOS 10 <ruby>以降<rt>いこう</rt></ruby>の iPad が<ruby>必要<rt>ひつよう</rt></ruby>です。</p>
-      <div class="row">
-        <div class="col-xs-12 col-sm-6 col-lg-4 sq-procedure">
-          <h3><i class="fa fa-desktop" aria-hidden="true"></i> Macを持っている場合</h3>
-          <p>Mac を持っている場合、 Mac でダウンロードした SWIFT QUEST を AirDrop を使って iPad に転送することができます。</p>
-          <div class="sq-item">
-            <h4>1. SWIFT QUEST をダウンロード</h4>
-            <p>Mac のブラウザでこのページにアクセスし、次のファイルをダウンロードして下さい。</p>
-            <p><a href="dl/SWIFT-QUEST-0.1.playgroundbook.zip">SWIFT QUEST.playgroundbook</a></p>
+<!-- Header -->
+<header id="battle">
+    <div class="container">
+        <div class="intro-text">
+          <div class="sq-battle-canvas embed-responsive">
+            <iframe class="sq-battle embed-responsive-item" src="/battle.html">
+            </iframe>
           </div>
-          <div class="sq-item">
-            <h4>2. ファイルを<ruby>展開<rt>てんかい</rt></ruby></h4>
-            <p>ダウンロードされたファイルを Finder 上でダブルクリックして<ruby>展開<rt>てんかい</rt></ruby>して下さい。 SWIFT QUEST.playgroundbook というファイルが<ruby>得<rt>え</rt></ruby>られます。</p>
+            <div class="sq-headline">SWIFT QUEST は、 RPG を作りながら楽しくプログラミングを学ぶためのオンラインブックです。</div>
+            <a href="#features" class="page-scroll btn btn-xl">もっと詳しく</a>
+        </div>
+    </div>
+    <div id="sq-fullscreen-effect"></div>
+</header>
+
+<!-- Features Section -->
+<section id="features" class="bg-light-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">特徴</h2>
+                <h3 class="section-subheading text-muted">RPG を作りながらプログラミングを学ぶ</h3>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-heartbeat fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="sq-heading">おもしろい</h4>
+                <p class="text-muted">プログラミングを学ぶときには「 1 から 100 までの数字の合計を計算して下さい」のようなつまらない練習問題に取り組むことが多いです。 SWIFT QUEST では RPG を作りながら楽しくプログラミングを学べます。</p>
+            </div>
+            <div class="col-md-4">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="sq-heading">わかりやすい</h4>
+                <p class="text-muted">「プログラミングを学んだけど、何をどのように作ればいいかわからない」という声をよく耳にします。 RPG という具体例を通して学ぶことで、プログラミングの道具をどのように使って何ができるのか理解できます。</p>
+            </div>
+            <div class="col-md-4">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-mobile fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="sq-heading">役に立つ</h4>
+                <p class="text-muted">SWIFT QUEST では Swift というプログラミング言語を使ってプログラミングを学びます。 Swift は初心者向きのわかりやすい言語ですが、 iPhone アプリや Web アプリ開発に使われるプロ用の本格的な言語でもあります。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="introduction">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">はじめに</h2>
+                <h3 class="section-subheading text-muted">何のために SWIFT QUEST を作ったのか</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="timeline">
+                    <li>
+                        <div class="timeline-image">
+                            <i class="fa fa-book fa-inverse"></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>自由帳の上のRPG</h4>
+                            </div>
+                            <div class="timeline-body">
+                              <p class="text-muted">小学生の頃、<a href="https://ja.wikipedia.org/wiki/%E3%83%89%E3%83%A9%E3%82%B4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88">ドラクエ</a>などの RPG が大好きだった僕は、自由帳の上に自作の RPG を作って友達と遊んでいました。小学 4 年生のある日、父親が、使わなくなった古いパソコンと一冊の本をくれました。それはプログラミングの本でした。プログラミングができればコンピューターで動くゲームが作れるというのです。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image">
+                          <i class="fa fa-gamepad fa-inverse"></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>初めてのプログラミング</h4>
+                            </div>
+                            <div class="timeline-body">
+                              <p class="text-muted">早速プログラミングを始めた僕は、初めに RPG のような戦闘ができるゲームを作りました。適当に数字を入力すると HP や MP などのステータスが決まってキャラクターを戦わせられるというものです。グラフィックもなく文字が表示されるだけのシンプルなゲームでしたが、自分のアイデアを思うがままに実現し動かせることに夢中になりました。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-image">
+                          <i class="fa fa-check fa-inverse"></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>RPGは初心者にぴったり</h4>
+                            </div>
+                            <div class="timeline-body">
+                              <p class="text-muted">今振り返ると、 RPG の戦闘を作ることはプログラミング初心者にとってとても良いトレーニングでした。プログラミングの構文だけを学んだ人はよく「それをどう使っていいのかわからない」と言います。 RPG なら具体例を通して使い方を学べます。そして、何より楽しいです。楽しくないとなかなか続けられません。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image">
+                          <i class="fa fa-globe fa-inverse"></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>プログラミングが注目されている</h4>
+                            </div>
+                            <div class="timeline-body">
+                              <p class="text-muted">この 20 年ほどで、 <a href="https://www.amazon.co.jp/dp/B009LFBL4Y">Google</a> や <a href="https://www.amazon.co.jp/dp/B00H3WR470">Amazon</a> 、 <a href="https://www.amazon.co.jp/dp/B00F4QOMVI">Facebook</a> など、プログラミングを学んだ人たちが作った巨大企業が次々と生まれ、世界中に大きな影響を与えています。人工知能（機械学習）やそれを利用した自動運転などの技術も注目されています。日本の小学校でも 2020 年にプログラミングが必修化予定です。今の子供たち、特に将来社会のリーダーとなる人には、プログラミングの知識と経験が欠かせないでしょう。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-image">
+                          <i class="fa fa-coffee fa-inverse"></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>子供から大人まで楽しく</h4>
+                            </div>
+                            <div class="timeline-body">
+                              <p class="text-muted">しかし、学校で勉強として押し付けられるとプログラミングがキライな人を増やすだけになってしまうかもしれません。僕と同じように RPG を作りながらプログラミングを学ぶことができれば、子供はもちろんのこと、昔 RPG に夢中になった大人たちも楽しくプログラミングを学ぶことができるんじゃないか、そう思って SWIFT QUEST を作りました。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image">
+                          <i class="fa fa-laptop fa-inverse"></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>基本をしっかり身に付ける</h4>
+                            </div>
+                            <div class="timeline-body">
+                              <p class="text-muted">とはいえ、楽しいだけでプログラミングの力が身に付かなければ意味がありません。 SWIFT QUEST は RPG を題材にしていますが、内容はむしろ正統派で、プログラミングの基本をきっちり学べるように作られています。初心者向けの書籍でプログラミングを学んだ人が、その後何をどうやって学べばいいかわからないと言うのをよく聞きます。 SWIFT QUEST はプログラミング初心者を対象としていますが、多くの初心者本には含まれない<a data-toggle="popover" data-placement="bottom" title="より高度な内容" data-content="たとえば、近年は関数型プログラミングやイミュータブルプログラミングなどの手法が注目を集めていますが、初心者本でそのような内容が扱われることは多くありません。">より高度な内容</a>もカバーしています。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-image">
+                          <i class="fa fa-cog fa-inverse"></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>本格的なプログラミングを学ぶ</h4>
+                            </div>
+                            <div class="timeline-body">
+                              <p class="text-muted">初心者や子供向けには <a href="https://scratch.mit.edu/">Scratch</a> などの<a data-toggle="popover" data-placement="top" title="ビジュアルプログラミング" data-content="普通のプログラミング言語ではソースコードと呼ばれる呪文のような文を書いてプログラムを作ります。しかし、ビジュアルプログラミングでは、おもちゃのように視覚的にブロックを組み合わせてプログラミングをします。">ビジュアルプログラミング</a>が人気です。しかし、 SWIFT QUEST では <a href="https://www.apple.com/jp/swift/">Swift （スウィフト）</a> というプロ用の本格的な<a data-toggle="popover" data-placement="top" title="プログラミング言語" data-content="英語や日本語、フランス語など、人間の言葉にも色々な言語があるように、プログラムを作るための言語にも色々な種類があります。そのような、プログラムを作るときに使う言語をプログラミング言語といいます。">プログラミング言語</a>を使います。ビジュアルプログラミングは敷居が低いですが、その先の本格的な学習につながりにくいという問題も指摘されています。僕は自分の体験から、たとえ小学生でも本格的な言語でプログラミングをはじめられることを知っています。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image">
+                          <i class="fa fa-rocket fa-inverse"></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>今、始めるならSwift</h4>
+                            </div>
+                            <div class="timeline-body">
+                              <p class="text-muted">プロ向けの本格的な言語と聞くと難しそうに思うかもしれません。しかし、 Swift は初心者にやさしく学びやすい言語です。また、 Swift はやさしいだけでなく、幅広いプログラミングの考え方を学ぶのに適しています。 2014 年に生まれた新しい言語なので、先進的な考え方も多く取り入れられています。 <a data-toggle="popover" data-placement="top" title="Swift の人気" data-content="たとえば、プログラミング言語の人気に関する<a href='http://redmonk.com/sogrady/2017/03/17/language-rankings-1-17/' target='_blank'>こちらのランキング</a>では、過去 10 年（ 2017 年現在）に生まれた新しい言語で最上位の 11 位にランクインしています。また、 Swift は過去最速で TOP 15 にランクインした言語だと書かれており、人気が高まっていることがわかります。">Swift の人気</a>は急激に高まっており、今、プログラミングを始める人に最適な言語の一つです。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-image">
+                          <i class="fa fa-magic fa-inverse"></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>プログラマーと魔法使いの杖</h4>
+                            </div>
+                            <div class="timeline-body">
+                              <p class="text-muted">僕はよく、プログラミングは魔法のようだと思います。魔法使いは呪文、プログラマーはコードという手続きを経て、望んだ効果を引き起こします。使いこなせば思いのままですが、学ばなければ使えるようになりません。あなたが物語の世界の住人なら、きっと魔法を使ってみたい思うでしょう。現実に、あなたの足元には魔法使いの杖が横たわっています。それを手に取れば、あなたも今日から魔法使いです。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="sq-button">
+                          <a href="/contents/{{ site.data.book.chapters[0].sections[0].id }}" class="sq-button page-btn btn-xl">プログラミングを始める</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Table of Contents Grid Section -->
+<section id="table-of-contents" class="bg-light-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">目次</h2>
+                <h3 class="section-subheading text-muted">すべてのコンテンツが無料です（現在執筆中）</h3>
+            </div>
+        </div>
+        <div class="row row-eq-height">
+          {% for chapter in site.data.book.chapters %}
+          <div class="col-md-4 col-sm-6 col-xs-12 sq-item">
+            <div class="sq-box">
+              <div class="sq-caption">
+                <h4>{{ forloop.index }}. {{ chapter.title }}</h4>
+              </div>
+              <div class="sq-contents">
+                <ul>
+                  {% for section in chapter.sections %}
+                  <li>
+                    {% if section.id %}
+                    <a href="/contents/{{ section.id }}/">{{ section.title }}</a>
+                    {% else %}
+                    <span class="text-muted">{{ section.title }}</span>
+                    {% endif %}
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
           </div>
-          <div class="sq-item">
-            <h4>3. iPad に転送</h4>
-            <p>Finder で下図のように AirDrop を開いて下さい。</p>
-            <p><img src="img/air-drop.png" /></p>
-            <p>iPad を起動すると上図のように Finder 上に iPad が<ruby>現<rt>あらわ</rt></ruby>れるので、 SWIFT QUEST.playgroundbook をドラッグ＆ドロップして下さい。転送が始まるので、<ruby>完了<rt>かんりょう</rt></ruby>したら Swift Playgrounds アプリから SWIFT QUEST を起動できます。</p>
-            <p>もし転送先として iPad がruby>現<rt>あらわ</rt></ruby>れない場合、<a href="https://support.apple.com/ja-jp/HT203106">こちら</a>を<ruby>参考<rt>さんこう</rt></ruby>に Mac と iPad の<ruby>設定<rt>せってい</rt></ruby>を見直して下さい。</p>
-          </div>
+          {% endfor %}
         </div>
-        <div class="col-xs-12 col-sm-6 col-lg-4 sq-procedure">
-          <h3><i class="fa fa-tablet" aria-hidden="true"></i> iPadからiPadに転送する場合</h3>
-          <p>すでに SWIFT QUEST がインストールされた iPad がある場合、 iPad から iPad へ SWIFT QUEST を転送することができます。</p>
-          <div class="sq-item">
-            <h4>1. Swift Playgrounds を起動</h4>
-            <p>転送元 iPad の Swift Playgrounds アプリを起動して、 "My Playgrounds" （下図の 1 ）をタップして<ruby>選択<rt>せんたく</rt></ruby>して下さい。</p>
-            <p><img src="img/air-drop-ipad-1.png" alt="My Playgrounds を選択, Action ボタンを押下"></p>
-          </div>
-          <div class="sq-item">
-            <h4>2. AirDrop を起動</h4>
-            <p>アクションボタン（上図 2 ）を<ruby>押<rt>お</rt></ruby>してから SWIFT QUEST をタップして<ruby>選択<rt>せんたく</rt></ruby>すると、下図のような<ruby>吹<rt>ふ</rt></ruby>き出しが<ruby>表示<rt>ひょうじ</rt></ruby>されます。</p>
-            <p><img src="img/air-drop-ipad-2.png" alt="AirDrop"></p>
-          </div>
-          <div class="sq-item">
-            <h4>3. iPad に転送</h4>
-            <p>転送<strong>先</strong> iPad を起動すると上図の AirDrop と書かれた<ruby>領域<rt>りょういき</rt></ruby>に転送先 iPad が<ruby>現<rt>あらわ</rt></ruby>れるのでタップして下さい。転送が始まるので、<ruby>完了<rt>かんりょう</rt></ruby>したら Swift Playgrounds アプリから SWIFT QUEST を起動できます。</p>
-            <p>もし転送先の iPad が現れない場合、<a href="https://support.apple.com/ja-jp/HT204144">こちら</a>を<ruby>参考<rt>さんこう</rt></ruby>に Mac と iPad の<ruby>設定<rt>せってい</rt></ruby>を見直して下さい。</p>
-          </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section id="author">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">著者</h2>
+                <h3 class="section-subheading text-muted"></h3>
+            </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-lg-4 sq-procedure">
-          <h3><i class="fa fa-globe" aria-hidden="true"></i> ブラウザでのご利用の場合</h3>
-          <p><img src="img/screenshot-web.png"/></p>
-          <p><ruby>現在<rt>げんざい</rt></ruby>、ブラウザからは、ウェルカムバトル（<ruby>冒頭<rt>ぼうとう</rt></ruby>の RPG 風の<ruby>戦闘<rt>せんとう</rt></ruby>）およびイントロダクションのみご<ruby><ruby>利用<rt>りよう</rt></ruby>いただけます。</p>
-          <p><a href="book/welcome-battle.html">SWIFT QUEST Web <ruby>版<rt>ばん</rt></ruby></a><br /><strong><i class="fa fa-music" aria-hidden="true"></i> 音が鳴るページがあるのでご注意下さい。</strong></p>
+            <div class="col-sm-12 col-lg-6 col-lg-offset-3">
+                <div class="team-member">
+                    <img src="{{ site.data.book.author.portrait }}" class="img-responsive img-circle" alt="">
+                    <h4>{{ site.data.book.author.name }}</h4>
+                    <p class="text-muted">@{{ site.data.book.author.id }}</p>
+                    <p class="text-muted">小学生のときにゲームが作りたくてプログラミングを始める。現在は <a href="http://qoncept.co.jp/">Qoncept</a> でエンジニアとして働く。プログラミング情報共有サイト <a href="http://qiita.com/koher">Qiita での投稿が人気</a>となり、 <a href="http://blog.kishikawakatsumi.com/entry/2015/12/02/193302">try! Swift 2016 で発表</a>する。</p>
+                    <ul class="list-inline social-buttons">
+                        <li><a href="https://twitter.com/{{ site.data.book.author.twitter }}"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="mailto:{{ site.data.book.author.email }}"><i class="fa fa-envelope-o"></i></a>
+                        </li>
+                        <li><a href="https://github.com/{{ site.data.book.author.github }}"><i class="fa fa-github"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
-    <section id="sq-contact" class="container">
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2">
-          <h2><ruby>著者<rt>ちょしゃ</rt></ruby></h2>
-          <hr />
-          <div class="sq-photo"><img src="https://avatars2.githubusercontent.com/u/217100?v=3&s=460" alt="Yuta Koshizawa" /></div>
-          <div class="sq-name">Yuta Koshizawa</div>
-          <div class="row sq-introduction">
-            <div class="col-md-8 col-md-offset-2 col-xs-9 col-xs-offset-1">小学四年生のときに、ゲームが作りたくてプログラミングをはじめる。<ruby>現在<rt>げんざい</rt></ruby>は <a href="http://qoncept.co.jp"><ruby>Qoncept<rt>コンセプト</rt></ruby></a> のエンジニア。プログラミングに<ruby>関<rt>かん</rt></ruby>する <a href="http://qiita.com/koher"><ruby>Qiita<rt>キータ</rt></ruby></a> での<ruby>投稿<rt>とうこう</rt></ruby>が人気。</div>
-          </div>
-        </div>
-        <div class="col-sm-4 col-lg-3 col-lg-offset-2 text-center">
-          <i class="fa fa-twitter fa-3x sq-icon"></i>
-          <p><a href="https://twitter.com/koher">@koher</a></p>
-        </div>
-        <div class="col-sm-4 col-lg-2 text-center">
-          <i class="fa fa-envelope-o fa-3x sq-icon" data-wow-delay=".1s"></i>
-          <p><a href="mailto:koher@koherent.org">koher@koherent.org</a></p>
-        </div>
-        <div class="col-sm-4 col-lg-3 text-center">
-          <i class="fa fa-github fa-3x sq-icon" data-wow-delay=".2s"></i>
-          <p><a href="https://github.com/koher">@koher</a></p>
-        </div>
-      </div>
-    </section>
-    {% include analytics.html %}
-  </body>
-</html>
+    </div>
+</section>
