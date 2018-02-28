@@ -40,7 +40,7 @@ function delay(milliseconds, action) {
     });
 }
 var container = document.getElementById("sq-container");
-var fullscreenEffect = parent.document.getElementById("sq-fullscreen-effect") || container;
+var fullscreenEffect = (document.getElementById("sq-fullscreen-effect") || parent.document.getElementById("sq-fullscreen-effect"));
 var statusBox = document.getElementById("sq-status-box");
 var monsters = document.getElementById("sq-monsters");
 var enemyIndexMap = [1, 0, 2];
@@ -257,14 +257,14 @@ function attack(scene, target, damage, noDamageMessage, whole) {
     var messages = [];
     if (!target.isAlive) {
         if (!whole) {
-            messages.push(new Message(target.name.concat("はすでにしんでいる。")));
+            messages.push(new Message(target.name.concat(" is already dead.")));
         }
         return messages;
     }
     target.hurt(damage);
     var sceneSnapshot = scene.clone();
     if (damage > 0) {
-        messages.push(new Message(target.name.concat("に").concat(String(damage)).concat("のダメージ。"), function () {
+        messages.push(new Message(target.name.concat(" took ").concat(String(damage)).concat(" damage!"), function () {
             updateStatusBox(sceneSnapshot);
             return Promise.resolve(undefined);
         }, function () {
@@ -330,10 +330,10 @@ function attack(scene, target, damage, noDamageMessage, whole) {
     if (!target.isAlive) {
         target.hasMagicShield = false;
         if (target.isEnemy) {
-            messages.push(new Message(target.name.concat("をやっつけた。")));
+            messages.push(new Message(target.name.concat(" was defeated.")));
         }
         else {
-            messages.push(new Message(target.name.concat("はしんでしまった。")));
+            messages.push(new Message(target.name.concat(" perished.")));
         }
     }
     return messages;
@@ -369,7 +369,7 @@ var RestorationSpell = (function (_super) {
                     return [];
                 }
                 else {
-                    return [new Message(target.name.concat("にはきかなかった。"))];
+                    return [new Message(target.name.concat(" got no effect."))];
                 }
             }
         }
@@ -379,7 +379,7 @@ var RestorationSpell = (function (_super) {
                     return [];
                 }
                 else {
-                    return [new Message(target.name.concat("にはきかなかった。"))];
+                    return [new Message(target.name.concat(" got no effect."))];
                 }
             }
         }
@@ -388,10 +388,10 @@ var RestorationSpell = (function (_super) {
         var sceneSnapshot = scene.clone();
         var messageText;
         if (this.forDead) {
-            messageText = target.name.concat("はいきかえった。");
+            messageText = target.name.concat(" was revived.");
         }
         else {
-            messageText = target.name.concat("のHPがかいふくした。");
+            messageText = target.name.concat("'s wounds were healed.");
         }
         return [new Message(messageText, function () { updateStatusBox(sceneSnapshot); return Promise.resolve(undefined); })];
     };
@@ -409,24 +409,24 @@ var AttackSpell = (function (_super) {
     };
     AttackSpell.prototype.perform = function (scene, target) {
         var damage = Math.max(0, Math.floor(this.damage * ((Math.random() * 0.4) + 0.8) / (target.isDefending ? 2 : 1) / (target.hasMagicShield ? 2 : 1)));
-        return attack(scene, target, damage, "にはきかなかった。", this.whole);
+        return attack(scene, target, damage, " got no effect.", this.whole);
     };
     return AttackSpell;
 }(Spell));
 var MagicShieldSpell = (function (_super) {
     __extends(MagicShieldSpell, _super);
     function MagicShieldSpell() {
-        return _super.call(this, "マジックシールド", new Color(255, 255, 255), 13, false) || this;
+        return _super.call(this, "Magic Shield", new Color(255, 255, 255), 13, false) || this;
     }
     MagicShieldSpell.prototype.targets = function (scene) {
         return scene.friend.membersAlive.filter(function (character) { return !character.hasMagicShield; });
     };
     MagicShieldSpell.prototype.perform = function (scene, target) {
         if (target.hasMagicShield) {
-            return [new Message(target.name.concat("にはきかなかった。"))];
+            return [new Message(target.name.concat(" got no effect."))];
         }
         target.hasMagicShield = true;
-        return [new Message(target.name.concat("はまほうのたてにつつまれた。"))];
+        return [new Message(target.name.concat(" was covered in a magic sheild."))];
     };
     return MagicShieldSpell;
 }(Spell));
@@ -435,13 +435,13 @@ var Spells = (function () {
     }
     return Spells;
 }());
-Spells.healing = new RestorationSpell("ヒーリング", new Color(255, 255, 255), 5, false, 80);
-Spells.resurrection = new RestorationSpell("リザレクション", new Color(255, 255, 255), 15, false, 999, true);
-Spells.fireball = new AttackSpell("ファイアボール", new Color(254, 75, 38), 5, false, 70);
-Spells.inferno = new AttackSpell("インフェルノ", new Color(254, 75, 38), 10, false, 130);
-Spells.blizzard = new AttackSpell("ブリザード", new Color(38, 75, 254), 9, true, 70);
-Spells.thunderbolt = new AttackSpell("サンダーボルト", new Color(254, 254, 75), 8, false, 100);
-Spells.tempest = new AttackSpell("テンペスト", new Color(127, 127, 127), 12, true, 95);
+Spells.healing = new RestorationSpell("Healing", new Color(255, 255, 255), 5, false, 80);
+Spells.resurrection = new RestorationSpell("Resurrection", new Color(255, 255, 255), 15, false, 999, true);
+Spells.fireball = new AttackSpell("Fireball", new Color(254, 75, 38), 5, false, 70);
+Spells.inferno = new AttackSpell("Inferno", new Color(254, 75, 38), 10, false, 130);
+Spells.blizzard = new AttackSpell("Blizzard", new Color(38, 75, 254), 9, true, 70);
+Spells.thunderbolt = new AttackSpell("Thunderbolt", new Color(254, 254, 75), 8, false, 100);
+Spells.tempest = new AttackSpell("Tempest", new Color(127, 127, 127), 12, true, 95);
 Spells.magicShield = new MagicShieldSpell();
 var Action = (function () {
     function Action(character) {
@@ -457,9 +457,9 @@ var AttackAction = (function (_super) {
         return _this;
     }
     AttackAction.prototype.perform = function (scene) {
-        var messages = [new Message(this.character.name.concat("のこうげき。"))];
+        var messages = [new Message(this.character.name.concat(" attacks."))];
         var damage = Math.max(0, Math.floor((this.character.attack - this.target.defense * Math.random()) / 2 / (this.target.isDefending ? 2 : 1)));
-        for (var _i = 0, _a = attack(scene, this.target, damage, "にダメージをあたえられない。"); _i < _a.length; _i++) {
+        for (var _i = 0, _a = attack(scene, this.target, damage, " took no damage!"); _i < _a.length; _i++) {
             var message = _a[_i];
             messages.push(message);
         }
@@ -482,7 +482,7 @@ var SpellAction = (function (_super) {
             this.character.mp -= this.spell.mp;
         }
         var sceneSnapshot = scene.clone();
-        var messages = [new Message(this.character.name.concat("は").concat(this.spell.name).concat("のまほうをつかった。"), function () { updateStatusBox(sceneSnapshot); return Promise.resolve(undefined); }, function () {
+        var messages = [new Message(this.character.name.concat(" casts ").concat(this.spell.name).concat("."), function () { updateStatusBox(sceneSnapshot); return Promise.resolve(undefined); }, function () {
                 fullscreenEffect.style.backgroundColor = _this.spell.color.css;
                 fullscreenEffect.style.visibility = "visible";
                 return delay(80, function () {
@@ -507,7 +507,7 @@ var SpellAction = (function (_super) {
             }
         }
         else {
-            messages.push(new Message("しかしMPがたりない。"));
+            messages.push(new Message("Not enough MP."));
         }
         return messages;
     };
@@ -521,7 +521,7 @@ var DefenseAction = (function (_super) {
         return _this;
     }
     DefenseAction.prototype.perform = function (scene) {
-        return [new Message(this.character.name.concat("はみをまもっている。"))];
+        return [new Message(this.character.name.concat(" is defending."))];
     };
     return DefenseAction;
 }(Action));
@@ -536,8 +536,8 @@ var SummonAction = (function (_super) {
         this.target.hp = this.target.maxHp;
         var sceneSnapshot = scene.clone();
         var messages = [
-            new Message(this.character.name.concat("はなかまをよんだ。"), function () { updateStatusBox(sceneSnapshot); return Promise.resolve(undefined); }),
-            new Message(this.target.name.concat("があらわれた。"))
+            new Message(this.character.name.concat(" calls for backup."), function () { updateStatusBox(sceneSnapshot); return Promise.resolve(undefined); }),
+            new Message(this.target.name.concat(" appears."))
         ];
         return messages;
     };
@@ -611,9 +611,9 @@ var PlayerCharacter = (function (_super) {
     PlayerCharacter.prototype.decideAction = function (scene) {
         var _this = this;
         var thiz = this;
-        return select([new SelectionItem("こうげき"), new SelectionItem("まほう", this.spells.length == 0), new SelectionItem("ぼうぎょ")], this.name, true).then_(function (actionName) {
+        return select([new SelectionItem("Attack"), new SelectionItem("Magic", this.spells.length == 0), new SelectionItem("Defend")], this.name, true).then_(function (actionName) {
             switch (actionName) {
-                case "こうげき": {
+                case "Attack": {
                     return select(scene.enemy.members.filter(function (member) { return member.isAlive; }).map(function (member) { return new SelectionItem(member); }), null, true).then_(function (target) {
                         if (target == null) {
                             removeSelections(2);
@@ -622,10 +622,10 @@ var PlayerCharacter = (function (_super) {
                         return Promise.resolve(new AttackAction(_this, target));
                     });
                 }
-                case "まほう": {
+                case "Magic": {
                     return thiz.decideSpellAction(scene);
                 }
-                case "ぼうぎょ": {
+                case "Defend": {
                     return Promise.resolve(new DefenseAction(_this));
                 }
                 default: {
@@ -827,12 +827,12 @@ function startBattle() {
     var darkKnightSummoned = false;
     var demonPriestSummoned = false;
     var scene = new Scene(new Party([
-        new PlayerCharacter("ゆうしゃ", 153, 25, 162, 97, 72, [Spells.healing, Spells.resurrection, Spells.thunderbolt], false),
-        new PlayerCharacter("せんし", 198, 0, 178, 111, 63, [], false),
-        new PlayerCharacter("そうりょ", 101, 35, 76, 55, 75, [Spells.healing, Spells.resurrection, Spells.magicShield], false),
-        new PlayerCharacter("まほうつかい", 77, 58, 60, 57, 48, [Spells.fireball, Spells.inferno, Spells.blizzard, Spells.tempest], false),
+        new PlayerCharacter("Hero", 153, 25, 162, 97, 72, [Spells.healing, Spells.resurrection, Spells.thunderbolt], false),
+        new PlayerCharacter("Warrior", 198, 0, 178, 111, 63, [], false),
+        new PlayerCharacter("Cleric", 101, 35, 76, 55, 75, [Spells.healing, Spells.resurrection, Spells.magicShield], false),
+        new PlayerCharacter("Mage", 77, 58, 60, 57, 48, [Spells.fireball, Spells.inferno, Spells.blizzard, Spells.tempest], false),
     ]), new Party([
-        new NonPlayerCharacter("まおう", 999, 99, 185, 58, 61, [Spells.inferno, Spells.blizzard, Spells.tempest], true, function (character, scene) {
+        new NonPlayerCharacter("Archfiend", 999, 99, 185, 58, 61, [Spells.inferno, Spells.blizzard, Spells.tempest], true, function (character, scene) {
             if (!scene.friend.members[1].isAlive && !scene.friend.members[2].isAlive) {
                 var summons = false;
                 if (darkKnightSummoned) {
@@ -877,7 +877,7 @@ function startBattle() {
                 return Promise.resolve(new AttackAction(character, scene.enemy.anyMemberAlive));
             }
         }),
-        apply(new NonPlayerCharacter("あんこくきし", 250, 0, 181, 93, 73, [], true, function (character, scene) {
+        apply(new NonPlayerCharacter("Dark Knight", 250, 0, 181, 93, 73, [], true, function (character, scene) {
             return Promise.resolve(new MultipleAction(character, [
                 new AttackAction(character, scene.enemy.anyMemberAlive),
                 new AttackAction(character, scene.enemy.anyMemberAlive),
@@ -891,7 +891,7 @@ function startBattle() {
                     break;
             }
         }),
-        apply(new NonPlayerCharacter("デモンプリースト", 180, 99, 121, 55, 59, [Spells.healing, Spells.resurrection, Spells.magicShield], true, function (character, scene) {
+        apply(new NonPlayerCharacter("Demon Priest", 180, 99, 121, 55, 59, [Spells.healing, Spells.resurrection, Spells.magicShield], true, function (character, scene) {
             var spellsAvailable = character.spells.filter(function (spell) { return character.mp >= spell.mp; });
             if (Math.random() < 0.5) {
                 var spell = Spells.magicShield;
@@ -935,13 +935,13 @@ function startBattle() {
         }),
     ]));
     updateStatusBox(scene);
-    return showMessages([new Message(scene.enemy.members[0].name.concat("があらわれた。"))]).then(function (value) {
+    return showMessages([new Message(scene.enemy.members[0].name.concat(" appears."))]).then(function (value) {
         return scene.performBattle();
     }).then(function (winner) {
         if (winner == scene.friend) {
             winCount++;
             if (isBattleStandalone) {
-                return select([new SelectionItem("もういちどたたかう")]).then_(function (item) {
+                return select([new SelectionItem("Again")]).then_(function (item) {
                     clearSelections();
                     return startBattle();
                 });
@@ -955,13 +955,13 @@ function startBattle() {
             winCount = 0;
             var items = void 0;
             if (isBattleStandalone) {
-                items = [new SelectionItem("やりなおす")];
+                items = [new SelectionItem("Retry")];
             }
             else {
-                items = [new SelectionItem("やりなおす"), new SelectionItem("つぎへすすむ")];
+                items = [new SelectionItem("Retry"), new SelectionItem("Next")];
             }
             return select(items).then_(function (item) {
-                if (item == "やりなおす") {
+                if (item == "Retry") {
                     clearSelections();
                     return startBattle();
                 }
