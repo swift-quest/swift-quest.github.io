@@ -1,0 +1,209 @@
+---
+---
+
+@import "color";
+
+// based on https://coolors.co/e8eef2-ee5622-6b6d76-363537-ffbe0b
+$theme: #FFBE0B;
+$theme-highlighted: #EFAE00;
+$primary-active: #DE4612;
+$white: white;
+$sub: #363537;
+
+$code-comment-color: #aaaaaa;
+
+$transition-duration: 0.3s;
+
+html {
+  position: relative;
+  height: 100%;
+}
+body {
+  padding: 70px 0 68px 0;
+  height: 100%;
+}
+
+#mainNav {
+    a.navbar-brand {
+      font-size: 2.0em;
+
+      padding-top: 0;
+      padding-bottom: 0;
+
+      @media(min-width:768px) {
+        img {
+          margin-top: -10px;
+          margin-bottom: -10px;
+          height: 70px;
+          -webkit-transition-property: height, margin-top, margin-bottom;
+          -moz-transition-property: height, margin-top, margin-bottom;
+          transition-property: height, margin-top, margin-bottom;
+          -webkit-transition-duration: 0.3s;
+          -moz-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+        }
+      }
+    }
+}
+
+.navbar-custom {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: $dark-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .ss-close-button {
+    display: none;
+  }
+}
+
+.container {
+  width: 100%;
+}
+
+.btn-primary {
+  background-color: $primary;
+  border-color: $primary;
+  padding-left: 25px;
+  padding-right: 25px;
+
+  &:hover {
+    background-color: $primary-highlighted;
+    border-color: $primary-highlighted;
+    &:active {
+      background-color: $primary-active;
+      border-color: $primary-active;
+    }
+  }
+
+  &:focus {
+    background-color: $primary;
+    border-color: $primary;
+  }
+}
+
+
+.ss-editor {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+
+  height: 100%;
+
+  .row {
+    height: 100%;
+  }
+
+  .ss-input {
+    width: 50%;
+    height: 100%;
+    background-color: $code-background-color;
+    padding: 0;
+
+    textarea {
+      background: none;
+      border: none;
+    }
+
+    div.CodeMirror {
+      height: 100%;
+      background-color: $code-background-color;
+
+      div.CodeMirror-gutters {
+        border: none;
+
+        div.CodeMirror-linenumbers {
+          background-color: $code-accesory-background-color;
+        }
+      }
+    }
+  }
+
+  .ss-output {
+    width: 50%;
+    height: 100%;
+    background-color: $output-background-color;
+    padding: 0;
+
+    textarea {
+      background: none;
+      border: none;
+    }
+
+    div.CodeMirror {
+      height: 100%;
+      background-color: $output-background-color;
+
+      div.CodeMirror-gutters {
+        border: none;
+
+        div.CodeMirror-linenumbers {
+          background-color: $output-accesory-background-color;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ss-editor {
+    display: block;
+
+    .ss-input {
+      width: 100%;
+      -moz-transition: height $transition-duration ease-out 0;
+      -webkit-transition: height $transition-duration ease-out 0;
+      -ms-transition: height $transition-duration ease-out 0;
+      transition: height $transition-duration ease-out 0;
+    }
+
+    .ss-output {
+      width: 100%;
+      height: 0;
+      -moz-transition: height $transition-duration ease-out 0;
+      -webkit-transition: height $transition-duration ease-out 0;
+      -ms-transition: height $transition-duration ease-out 0;
+      transition: height $transition-duration ease-out 0;
+    }
+
+    &.ss-show-output {
+      .ss-input {
+        height: 0;
+        -moz-transition: height $transition-duration ease-out 0;
+        -webkit-transition: height $transition-duration ease-out 0;
+        -ms-transition: height $transition-duration ease-out 0;
+        transition: height $transition-duration ease-out 0;
+      }
+
+      .ss-output {
+        height: 100%;
+        -moz-transition: height $transition-duration ease-out 0;
+        -webkit-transition: height $transition-duration ease-out 0;
+        -ms-transition: height $transition-duration ease-out 0;
+        transition: height $transition-duration ease-out 0;
+      }
+    }
+  }
+
+  .footer {
+    .ss-try-button.ss-show-output {
+      display: none;
+    }
+    .ss-close-button.ss-show-output {
+      display: inline;
+    }
+  }
+}
+
+.cm-s-default .cm-comment {
+  color: $code-comment-color;
+}

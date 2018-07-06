@@ -17,6 +17,9 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
     <link href="/css/agency.css" rel="stylesheet">
 
+    {% for path in page.css_ext %}
+    <link rel="stylesheet" href="{{path}}" type="text/css">
+    {% endfor %}
     <link rel="stylesheet" href="/css/common.css" type="text/css">
     {% for style in page.css %}
     <link rel="stylesheet" href="/css/{{ style }}.css" type="text/css">
@@ -24,6 +27,7 @@
   </head>
   <body id="page-top" class="index">
     <!-- Navigation -->
+    {% unless page.no_navbar %}
     <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -60,7 +64,9 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
+    {% endunless %}
     {{ content }}
+    {% unless page.no_footer %}
     <footer>
         <div class="container">
             <div class="row">
@@ -84,6 +90,7 @@
             </div>
         </div>
     </footer>
+    {% endunless %}
     <script
     src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -96,6 +103,9 @@
         $('[data-toggle="popover"]').popover({html: true})
       });
     </script>
+    {% for path in page.js_ext %}
+    <script src="{{ path }}"></script>
+    {% endfor %}
     {% for js in page.js %}
     <script src="/js/{{ js }}.js"></script>
     {% endfor %}

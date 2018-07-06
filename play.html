@@ -1,0 +1,60 @@
+---
+layout: common
+title: SWIFT QUEST
+css:
+  - play
+css_ext:
+  - "/lib/codemirror/lib/codemirror.css"
+  - "/lib/codemirror/theme/quest.css"
+  - "/lib/codemirror/theme/output.css"
+js:
+  - play
+js_ext:
+  - "/lib/codemirror/lib/codemirror.js"
+  - "/lib/codemirror/mode/swift/swift.js"
+  - "/lib/codemirror/addon/edit/closebrackets.js"
+  - "/lib/codemirror/addon/edit/matchbrackets.js"
+  - "http://swiftquest.swiftyplanet.org/js/play.js"
+no_navbar: true
+no_footer: true
+no_style_js: true
+---
+<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand page-scroll" href="/">
+              <img src="/img/brand.png" alt="{{ site.data.book.title }}" />
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+
+<div class="ss-editor">
+  <div class="ss-input">
+    <textarea>// ここにコードを書いて ▶ ボタンを押して下さい。</textarea>
+  </div>
+  <div class="ss-output">
+    <textarea readonly="">ここに結果が表示されます。</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <a class="btn btn-primary btn-lg ss-try-button" role="button"><i class="fa fa-play" aria-hidden="true"></i></a>
+  <a class="btn btn-primary btn-lg ss-close-button" role="button">close</a>
+</footer>
