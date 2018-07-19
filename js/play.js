@@ -1,7 +1,7 @@
 $(function() {
-  var editor = $(".ss-editor");
+  var editor = $(".sq-editor");
   var first = true;
-  var inputArea = $(".ss-input>textarea", editor)[0];
+  var inputArea = $(".sq-input>textarea", editor)[0];
   var inputMirror = CodeMirror.fromTextArea(inputArea, {
     lineNumbers: true,
     lineWrapping: true,
@@ -16,7 +16,7 @@ $(function() {
       first = false;
     }
   });
-  var outputArea = $(".ss-output>textarea", editor)[0];
+  var outputArea = $(".sq-output>textarea", editor)[0];
   var outputMirror = CodeMirror.fromTextArea(outputArea, {
     lineNumbers: false,
     lineWrapping: true,
@@ -24,12 +24,12 @@ $(function() {
     readOnly: true,
     theme: "output",
   });
-  var tryButton = $(".ss-try-button");
-  var closeButton = $(".ss-close-button");
+  var tryButton = $(".sq-play-button");
+  var closeButton = $(".sq-close-button");
   tryButton.click(function() {
-    editor.addClass("ss-show-output");
-    tryButton.addClass("ss-show-output");
-    closeButton.addClass("ss-show-output");
+    editor.addClass("sq-show-output");
+    tryButton.addClass("sq-show-output");
+    closeButton.addClass("sq-show-output");
     var source = inputMirror.getValue();
     SwiftQuest.postSource(source).done(function(result) {
         if (result.status == 'success') {
@@ -44,9 +44,9 @@ $(function() {
     });
   });
   closeButton.click(function() {
-    editor.removeClass("ss-show-output");
-    tryButton.removeClass("ss-show-output");
-    closeButton.removeClass("ss-show-output");
+    editor.removeClass("sq-show-output");
+    tryButton.removeClass("sq-show-output");
+    closeButton.removeClass("sq-show-output");
   });
 });
 // $("nav.affix-top").removeClass("affix-top").addClass("affix");
