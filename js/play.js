@@ -24,11 +24,11 @@ $(function() {
     readOnly: true,
     theme: "output",
   });
-  var tryButton = $(".sq-play-button");
+  var playButton = $(".sq-play-button");
   var closeButton = $(".sq-close-button");
-  tryButton.click(function() {
+  playButton.click(function() {
     editor.addClass("sq-show-output");
-    tryButton.addClass("sq-show-output");
+    playButton.addClass("sq-show-output");
     closeButton.addClass("sq-show-output");
     var source = inputMirror.getValue();
     SwiftQuest.postSource(source).done(function(result) {
@@ -45,7 +45,7 @@ $(function() {
   });
   closeButton.click(function() {
     editor.removeClass("sq-show-output");
-    tryButton.removeClass("sq-show-output");
+    playButton.removeClass("sq-show-output");
     closeButton.removeClass("sq-show-output");
   });
 });
