@@ -116,15 +116,6 @@ body {
 
     div.CodeMirror {
       height: 100%;
-      background-color: $code-background-color;
-
-      div.CodeMirror-gutters {
-        border: none;
-
-        div.CodeMirror-linenumbers {
-          background-color: $code-accesory-background-color;
-        }
-      }
     }
   }
 
@@ -202,8 +193,4 @@ body {
       display: inline;
     }
   }
-}
-
-.cm-s-default .cm-comment {
-  color: $code-comment-color;
 }
