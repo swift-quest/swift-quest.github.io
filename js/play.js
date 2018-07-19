@@ -23,6 +23,7 @@ $(function() {
     lineWrapping: true,
     indentUnit: 4,
     readOnly: true,
+    theme: "output",
   });
   var playButton = $(".sq-play-button");
   var closeButton = $(".sq-close-button");

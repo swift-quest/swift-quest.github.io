@@ -106,7 +106,7 @@ body {
   .sq-input {
     width: 50%;
     height: 100%;
-    background-color: $code-background-color;
+    background-color: #ffffff;
     padding: 0;
 
     textarea {
@@ -122,7 +122,7 @@ body {
   .sq-output {
     width: 50%;
     height: 100%;
-    background-color: $output-background-color;
+    background-color: #e8eef2;
     padding: 0;
 
     textarea {
@@ -132,14 +132,9 @@ body {
 
     div.CodeMirror {
       height: 100%;
-      background-color: $output-background-color;
 
       div.CodeMirror-gutters {
         border: none;
-
-        div.CodeMirror-linenumbers {
-          background-color: $output-accesory-background-color;
-        }
       }
     }
   }
