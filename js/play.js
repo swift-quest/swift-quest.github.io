@@ -28,6 +28,7 @@ $(function() {
   var playButton = $(".sq-play-button");
   var closeButton = $(".sq-close-button");
   playButton.click(function() {
+    playButton.attr("disabled", true);
     editor.addClass("sq-show-output");
     playButton.addClass("sq-show-output");
     closeButton.addClass("sq-show-output");
@@ -42,6 +43,8 @@ $(function() {
         }
     }).fail(function() {
         alert('ネットワークエラーが発生しました。');
+    }).always(function() {
+        playButton.attr("disabled", false);
     });
   });
   closeButton.click(function() {
