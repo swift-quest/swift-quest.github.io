@@ -9,6 +9,7 @@ $(function() {
     autoCloseBrackets: true,
     indentUnit: 4,
     mode: "text/x-swift",
+    theme: "quest",
   });
   inputMirror.on("focus", function() {
     if (first) {
@@ -22,7 +23,6 @@ $(function() {
     lineWrapping: true,
     indentUnit: 4,
     readOnly: true,
-    theme: "output",
   });
   var playButton = $(".sq-play-button");
   var closeButton = $(".sq-close-button");
