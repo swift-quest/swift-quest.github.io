@@ -47,10 +47,15 @@ no_style_js: true
 
 <div class="sq-editor">
   <div class="sq-input">
-    <textarea>// ここにコードを書いて ▶ ボタンを押して下さい。</textarea>
+    <div class="sq-mirror">
+      <textarea>// ここにコードを書いて ▶ ボタンを押して下さい。</textarea>
+    </div>
   </div>
   <div class="sq-output">
-    <textarea readonly="">ここに結果が表示されます。</textarea>
+    <div class="sq-mirror">
+      <textarea readonly="">ここに結果が表示されます。</textarea>
+    </div>
+    <div class="sq-spinner"><i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i></div>
   </div>
 </div>
 

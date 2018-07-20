@@ -103,6 +103,10 @@ body {
     height: 100%;
   }
 
+  .sq-mirror {
+      height: 100%;
+  }
+
   .sq-input {
     width: 50%;
     height: 100%;
@@ -120,22 +124,36 @@ body {
   }
 
   .sq-output {
+    position: relative;
     width: 50%;
     height: 100%;
     background-color: #e8eef2;
     padding: 0;
 
-    textarea {
-      background: none;
-      border: none;
+    .sq-mirror {
+        position: absolute;
+
+        textarea {
+          background: none;
+          border: none;
+        }
+
+        div.CodeMirror {
+          height: 100%;
+
+          div.CodeMirror-gutters {
+            border: none;
+          }
+        }
     }
 
-    div.CodeMirror {
-      height: 100%;
-
-      div.CodeMirror-gutters {
-        border: none;
-      }
+    .sq-spinner {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        display: none;
+        justify-content: center;
+        align-items: center;
     }
   }
 }
