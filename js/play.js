@@ -32,6 +32,7 @@ $(function() {
     outputMirror.setValue("");
     outputSpinner.css({ display: "flex" });
     playButton.attr("disabled", true);
+    closeButton.attr("disabled", true);
     editor.addClass("sq-show-output");
     playButton.addClass("sq-show-output");
     closeButton.addClass("sq-show-output");
@@ -53,6 +54,7 @@ $(function() {
     }).always(function() {
         outputSpinner.css({ display: "none" });
         playButton.attr("disabled", false);
+        closeButton.attr("disabled", false);
     });
   });
   closeButton.click(function() {
