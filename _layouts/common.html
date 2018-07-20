@@ -18,11 +18,11 @@
     <link href="/css/agency.css" rel="stylesheet">
 
     {% for path in page.css_ext %}
-    <link rel="stylesheet" href="{{path}}" type="text/css">
+    <link rel="stylesheet" href="{{path}}?t={{ site.time | date: '%s' }}" type="text/css">
     {% endfor %}
-    <link rel="stylesheet" href="/css/common.css" type="text/css">
+    <link rel="stylesheet" href="/css/common.css?t={{ site.time | date: '%s' }}" type="text/css">
     {% for style in page.css %}
-    <link rel="stylesheet" href="/css/{{ style }}.css" type="text/css">
+    <link rel="stylesheet" href="/css/{{ style }}.css?t={{ site.time | date: '%s' }}" type="text/css">
     {% endfor %}
   </head>
   <body id="page-top" class="index">
@@ -104,10 +104,10 @@
       });
     </script>
     {% for path in page.js_ext %}
-    <script src="{{ path }}"></script>
+    <script src="{{ path }}?t={{ site.time | date: '%s' }}"></script>
     {% endfor %}
     {% for js in page.js %}
-    <script src="/js/{{ js }}.js"></script>
+    <script src="/js/{{ js }}.js?t={{ site.time | date: '%s' }}"></script>
     {% endfor %}
   </body>
 </html>
