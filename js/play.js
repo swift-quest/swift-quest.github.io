@@ -30,7 +30,7 @@ $(function() {
   var closeButton = $(".sq-close-button");
   playButton.click(function() {
     outputMirror.setValue("");
-    outputSpinner.css({display: "flex"});
+    outputSpinner.css({ display: "flex" });
     playButton.attr("disabled", true);
     editor.addClass("sq-show-output");
     playButton.addClass("sq-show-output");
@@ -51,7 +51,7 @@ $(function() {
         outputMirror.setValue(defaultOutput);
         alert('ネットワークエラーが発生しました。');
     }).always(function() {
-        outputSpinner.css({display: "none"});
+        outputSpinner.css({ display: "none" });
         playButton.attr("disabled", false);
     });
   });
